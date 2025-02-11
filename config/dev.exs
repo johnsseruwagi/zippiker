@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :zippiker, Zippiker.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "macbookpro2015",
   hostname: "localhost",
   database: "zippiker_dev",
   stacktrace: true,

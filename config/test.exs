@@ -8,7 +8,7 @@ config :ash, disable_async?: true
 # Run `mix help test` for more information.
 config :zippiker, Zippiker.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "macbookpro2015",
   hostname: "localhost",
   database: "zippiker_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
