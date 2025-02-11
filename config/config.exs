@@ -43,7 +43,7 @@ config :spark,
 config :zippiker,
   ecto_repos: [Zippiker.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [Zippiker.Support]
+  ash_domains: [Zippiker.Support, Zippiker.KnowledgeBase]
 
 # Configures the endpoint
 config :zippiker, ZippikerWeb.Endpoint,
