@@ -20,6 +20,22 @@ defmodule Zippiker.KnowledgeBase.Category do
     end
   end
 
+  actions do
+    # Tell Ash what columns to accept while inserting or updating
+    default_accept [:name, :slug, :description]
+    # Tell Ash what actions are allowed on this resource
+    defaults [:create, :read, :update, :destroy]
+
+    update :create_article do
+      description "Create an article under a specified category"
+      # Set atomic to false since this is a 2-steps operation.
+      require_atomic? false
+      # Specify the parameter that will hold article attributes
+      argument :article_attrs, :map, allow_nil?: false
+      change manage_relationship(:article_attrs, :articles, type: :create)
+    end
+  end
+
   # Tell Ash what columns the resource has and their types and validations
 
   attributes do

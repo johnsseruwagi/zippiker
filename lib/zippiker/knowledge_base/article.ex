@@ -8,7 +8,13 @@ defmodule Zippiker.KnowledgeBase.Article do
     repo Zippiker.Repo
   end
 
-  attributes do
+  actions do
+    default_accept [:title, :slug, :content, :views_count, :published]
+    defaults [:create, :read, :update, :destroy]
+  end
+
+
+    attributes do
     uuid_primary_key :id
     attribute :title, :string, allow_nil?: false
     attribute :slug, :string
@@ -17,7 +23,7 @@ defmodule Zippiker.KnowledgeBase.Article do
     attribute :published, :boolean, default: false
     # Automatically adds, inserted_at and updated_at columns
     timestamps()
-  end
+    end
 
   relationships do
     belongs_to :category,  Zippiker.KnowledgeBase.Category do
