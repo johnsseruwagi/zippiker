@@ -9,8 +9,28 @@ defmodule Zippiker.KnowledgeBase.Article do
   end
 
   actions do
-    default_accept [:title, :slug, :content, :views_count, :published]
+    default_accept [
+      :title,
+      :slug,
+      :content,
+      :views_count,
+      :published,
+      :category_id
+    ]
     defaults [:create, :read, :update, :destroy]
+
+    create :create_with_category do
+      description "Create an article and its category at the same time"
+      argument :category_attrs, :map, allow_nil?: false
+      change manage_relationship(:category_attrs, :category, type: :create)
+    end
+
+    update :add_comment do
+      description "Add a comment to an article"
+      require_atomic? false
+      argument :comment, :map, allow_nil?: false
+      change manage_relationship(:comment, :comments, type: :create )
+    end
   end
 
 

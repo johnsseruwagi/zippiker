@@ -34,6 +34,12 @@ defmodule Zippiker.KnowledgeBase.Category do
       argument :article_attrs, :map, allow_nil?: false
       change manage_relationship(:article_attrs, :articles, type: :create)
     end
+
+    create :create_with_article do
+      description "Create a Category and an article under it"
+      argument :article_attrs, :map, allow_nil?: false
+      change manage_relationship(:article_attrs, :articles, type: :create)
+    end
   end
 
   # Tell Ash what columns the resource has and their types and validations

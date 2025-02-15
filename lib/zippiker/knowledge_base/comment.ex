@@ -8,6 +8,11 @@ defmodule Zippiker.KnowledgeBase.Comment do
     repo Zippiker.Repo
   end
 
+  actions do
+    default_accept [:content]
+    defaults [:create, :read, :update, :destroy ]
+  end
+
   attributes do
     uuid_primary_key :id
     attribute :content, :string, allow_nil?: false
