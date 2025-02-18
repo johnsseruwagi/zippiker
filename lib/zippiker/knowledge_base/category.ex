@@ -60,5 +60,9 @@ defmodule Zippiker.KnowledgeBase.Category do
       # Tell Ash that the articles table has a column named "category_id" that references this resource
       destination_attribute :category_id
     end
+
+    aggregates do
+      count :article_count, :articles
+    end
   end
 end

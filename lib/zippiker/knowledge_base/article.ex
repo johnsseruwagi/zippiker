@@ -76,5 +76,10 @@ defmodule Zippiker.KnowledgeBase.Article do
     has_many :article_feedbacks,  Zippiker.KnowledgeBase.ArticleFeedback do
       destination_attribute :article_id
     end
+
+    aggregates do
+      count :comment_count, :comments
+      count :tag_count, :tags
+    end
   end
 end
