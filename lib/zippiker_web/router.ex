@@ -17,6 +17,11 @@ defmodule ZippikerWeb.Router do
   scope "/", ZippikerWeb do
     pipe_through :browser
 
+    scope "/categories" do
+      live "/", CategoriesLive
+      live "/create", CreateCategoryLive
+      live "/:category_id", EditCategoryLive
+    end
     get "/", PageController, :home
   end
 
