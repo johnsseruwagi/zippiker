@@ -8,6 +8,12 @@ defmodule Zippiker.KnowledgeBase.Tag do
     repo Zippiker.Repo
   end
 
+  actions do
+    default_accept [:name, :slug]
+    defaults [:create, :read, :update, :destroy]
+  end
+
+
   attributes do
     uuid_primary_key :id
     attribute :name, :string, allow_nil?: false
