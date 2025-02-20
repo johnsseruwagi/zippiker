@@ -60,6 +60,11 @@ defmodule ZippikerWeb.ArticleLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+
+    if connected?(socket) do
+      ZippikerWeb.Endpoint.subscribe("articles")
+    end
+
     {:ok,
      socket
      |> stream(
@@ -100,6 +105,15 @@ defmodule ZippikerWeb.ArticleLive.Index do
     {:noreply, stream_insert(socket, :articles, article)}
   end
 
+  def handle_info(%Phoenix.Socket.Broadcast{topic: "articles"}, socket) do
+    socket
+    |>stream(
+            :articles,
+            Ash.read!(Zippiker.KnowledgeBase.Article, actor: socket.assigns[:current_user])
+          )
+          |>noreply()
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     article = Ash.get!(Zippiker.KnowledgeBase.Article, id, actor: socket.assigns.current_user)
@@ -107,4 +121,6 @@ defmodule ZippikerWeb.ArticleLive.Index do
 
     {:noreply, stream_delete(socket, :articles, article)}
   end
+
+
 end

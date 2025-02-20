@@ -1,11 +1,20 @@
 defmodule Zippiker.KnowledgeBase.Article do
   use Ash.Resource,
       domain:  Zippiker.KnowledgeBase,
-      data_layer: AshPostgres.DataLayer
+      data_layer: AshPostgres.DataLayer,
+      notifiers:  Ash.Notifier.PubSub
 
   postgres do
     table "articles"
     repo Zippiker.Repo
+  end
+
+  pub_sub do
+    module ZippikerWeb.Endpoint
+    prefix "articles"
+    publish_all :update, [[:id, nil]]
+    publish_all :create, [[:id, nil]]
+    publish_all :destroy, [[:id, nil]]
   end
 
   actions do
