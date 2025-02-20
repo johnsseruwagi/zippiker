@@ -22,6 +22,16 @@ defmodule ZippikerWeb.Router do
       live "/create", CreateCategoryLive
       live "/:category_id", EditCategoryLive
     end
+
+    scope "/articles" do
+    live "/", ArticleLive.Index, :index
+    live "/new", ArticleLive.Index, :new
+    live "/:id/edit", ArticleLive.Index, :edit
+
+    live "/:id", ArticleLive.Show, :show
+    live "/:id/show/edit", ArticleLive.Show, :edit
+    end
+
     get "/", PageController, :home
   end
 

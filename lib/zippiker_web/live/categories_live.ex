@@ -11,14 +11,16 @@ defmodule ZippikerWeb.CategoriesLive do
   def render(assigns) do
     ~H"""
     <%!-- New Category Button --%>
-    <.button id="create-category-button" phx-click={JS.navigate(~p"/categories/create")}>
-      <.icon name="hero-plus-solid" />
-
-    </.button>
-
-
+    <.header>
     <%!-- List category records --%>
-    <h1>{gettext("Categories")}</h1>
+    {gettext("Categories")}
+
+    <:actions>
+    <.link patch={~p"/categories/create"}>
+      <.button>New Category</.button>
+    </.link>
+    </:actions>
+    </.header>
 
 
     <.table id="knowledge-base-categories" rows={@categories}>
@@ -32,12 +34,12 @@ defmodule ZippikerWeb.CategoriesLive do
           id={"edit-button-#{row.id}"}
           phx-click={JS.navigate(~p"/categories/#{row.id}")}
           class="bg-white
-           text-zinc-500
+           text-zinc-300
            hover:bg-white
-           hover:text-zinc-900
+           hover:text-zinc-600
            hover:underline"
         >
-          <.icon name="hero-pencil-solid" />
+          Edit
         </.button>
 
 
@@ -46,11 +48,11 @@ defmodule ZippikerWeb.CategoriesLive do
           id={"delete-button-#{row.id}"}
           phx-click={"delete-#{row.id}"}
           class="bg-white
-          text-zinc-500
+          text-zinc-300
           hover:bg-white
-          hover:text-zinc-900"
+          hover:text-zinc-600"
         >
-          <.icon name="hero-trash-solid" />
+          Delete
         </.button>
       </:action>
     </.table>
