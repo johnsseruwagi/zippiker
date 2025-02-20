@@ -3,7 +3,9 @@ defmodule Zippiker.KnowledgeBase.Category do
       # Tell Ash that this resource belongs to KnowledgeBase domain
   domain: Zippiker.KnowledgeBase,
         # Tell Ash that this resource data is stored in a postgresql
-  data_layer: AshPostgres.DataLayer
+  data_layer: AshPostgres.DataLayer,
+        # Tell Ash to broadcast/ Emit events via pubsub
+  notifiers: Ash.Notifier.PubSub
 
   postgres do
     # Tell Ash that this resource data is stored in a table named "categories"
@@ -18,6 +20,28 @@ defmodule Zippiker.KnowledgeBase.Category do
     references do
       reference :articles, on_delete: :delete
     end
+  end
+
+  # Configure how ash will work with pubsub on this resource.
+  pub_sub do
+    # 1. Tell Ash to use ZippikerWeb.Endpoint for publishing events
+    module ZippikerWeb.Endpoint
+
+
+    # Prefix all events from this resource with category. This allows us
+    # to subscribe only to events starting with "categories" in live view
+    prefix "categories"
+
+    # Define event topic or names. Below configuration will be publishing
+    # topic of this format whenever an action of update, create or delete
+    # happens:
+    #    "categories"
+    #    "categories:UUID-PRIMARY-KEY-ID-OF-CATEGORY"
+    #
+    #  You can pass any other parameter available on resource like slug
+    publish_all :update, [[:id, nil]]
+    publish_all :create, [[:id, nil]]
+    publish_all :destroy, [[:id, nil]]
   end
 
   actions do

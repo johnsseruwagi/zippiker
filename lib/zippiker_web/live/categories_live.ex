@@ -3,6 +3,12 @@ defmodule ZippikerWeb.CategoriesLive do
   alias Zippiker.KnowledgeBase.Category
 
   def mount(_params, _session, socket) do
+    # if the user is connected then subscribe to all events/ topic
+    # with categories event
+    if connected?(socket) do
+      ZippikerWeb.Endpoint.subscribe("categories")
+    end
+
     socket
     |> assign_categories()
     |> ok()
@@ -74,6 +80,18 @@ defmodule ZippikerWeb.CategoriesLive do
         |> noreply()
     end
   end
+
+  @doc """
+  Function that responds when an event with topic "categories" is detected.
+  It does two things
+  1. It pattern matches events with topic "categories" only
+  2. It refreshes categories from DB via assign_categories
+  """
+  def handle_info(%Phoenix.Socket.Broadcast{topic: "categories"}, socket) do
+    socket
+    |> assign_categories()
+    |> noreply()
+    end
 
   defp assign_categories(socket) do
     {:ok, categories} =
