@@ -18,7 +18,8 @@ defmodule ZippikerWeb.ArticleLive.Index do
       rows={@streams.articles}
       row_click={fn {_id, article} -> JS.navigate(~p"/articles/#{article}") end}
     >
-      <:col :let={{_id, article}} label="Id">{article.id}</:col>
+      <:col :let={{_title, article}} label="Title">{article.title}</:col>
+      <:col :let={{_content, article}} label="Content">{article.content}</:col>
 
       <:action :let={{_id, article}}>
         <div class="sr-only">
