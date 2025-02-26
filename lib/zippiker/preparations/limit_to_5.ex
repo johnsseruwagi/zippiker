@@ -1,4 +1,4 @@
-defmodule Zippiker.KnowledgeBase.Category.Preparations.LimitTo5 do
+defmodule Zippiker.Preparations.LimitTo5 do
   use Ash.Resource.Preparation
 
   require Ash.Query

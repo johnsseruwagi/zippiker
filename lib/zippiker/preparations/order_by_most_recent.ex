@@ -1,4 +1,4 @@
-defmodule Zippiker.KnowledgeBase.Category.Preparations.OrderByMostRecent do
+defmodule Zippiker.Preparations.OrderByMostRecent do
   use Ash.Resource.Preparation
 
   require Ash.Query

@@ -1,4 +1,4 @@
-defmodule Zippiker.KnowledgeBase.Category.Preparations.MonthToDate do
+defmodule Zippiker.Preparations.MonthToDate do
   use Ash.Resource.Preparation
   require Ash.Query
 

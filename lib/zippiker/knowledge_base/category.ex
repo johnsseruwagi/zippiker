@@ -22,12 +22,6 @@ defmodule Zippiker.KnowledgeBase.Category do
     end
   end
 
-  preparations do
-    prepare Zippiker.KnowledgeBase.Category.Preparations.LimitTo5
-    prepare Zippiker.KnowledgeBase.Category.Preparations.MonthToDate
-    prepare Zippiker.KnowledgeBase.Category.Preparations.OrderByMostRecent
-  end
-
   # Configure how ash will work with pubsub on this resource.
   pub_sub do
     # 1. Tell Ash to use ZippikerWeb.Endpoint for publishing events
@@ -69,6 +63,12 @@ defmodule Zippiker.KnowledgeBase.Category do
       description "Create a Category and an article under it"
       argument :article_attrs, :map, allow_nil?: false
       change manage_relationship(:article_attrs, :articles, type: :create)
+    end
+
+    read :most_recent do
+      prepare Zippiker.Preparations.LimitTo5
+      prepare Zippiker.Preparations.MonthToDate
+      prepare Zippiker.Preparations.OrderByMostRecent
     end
   end
 
