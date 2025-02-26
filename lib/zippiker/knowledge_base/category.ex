@@ -64,6 +64,17 @@ defmodule Zippiker.KnowledgeBase.Category do
       argument :article_attrs, :map, allow_nil?: false
       change manage_relationship(:article_attrs, :articles, type: :create)
     end
+
+    read :most_recent do
+      # Prepare to limit results to 5 records
+      prepare build(limit: 5)
+
+      # Prepare to sort results by their inserted at date
+      prepare build(sort: [inserted_at: :desc])
+
+      # Another preparation to filter categories created this month only
+      filter expr(inserted_at >= ^Date.beginning_of_month(Date.utc_today()))
+    end
   end
 
   # Tell Ash what columns the resource has and their types and validations
