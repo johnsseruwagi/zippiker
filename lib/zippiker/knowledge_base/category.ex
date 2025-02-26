@@ -72,6 +72,10 @@ defmodule Zippiker.KnowledgeBase.Category do
     end
   end
 
+  changes do
+    change Zippiker.Changes.Slugify
+  end
+
   # Tell Ash what columns the resource has and their types and validations
 
   attributes do
