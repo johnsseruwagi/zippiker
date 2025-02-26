@@ -66,7 +66,9 @@ defmodule Zippiker.KnowledgeBase.Category do
     end
 
     read :most_recent do
-      prepare Zippiker.KnowledgeBase.Category.Preparations.MostRecent
+      prepare Zippiker.KnowledgeBase.Category.Preparations.LimitTo5
+      prepare Zippiker.KnowledgeBase.Category.Preparations.MonthToDate
+      prepare Zippiker.KnowledgeBase.Category.Preparations.OrderByMostRecent
     end
   end
 

@@ -4,8 +4,6 @@ defmodule ZippikerWeb.EditCategoryLive do
   """
   use ZippikerWeb, :live_view
 
-  alias AshPhoenix.Form
-
   @doc """
   1. Retrieves category_id from the route parameter
   2. Assign it in the socket
