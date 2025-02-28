@@ -14,6 +14,4 @@ defmodule ZippikerWeb.CreateCategoryLive do
     <ZippikerWeb.CategoryFormComponent.form />
     """
   end
-
-
 end

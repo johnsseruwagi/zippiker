@@ -22,6 +22,4 @@ defmodule ZippikerWeb.EditCategoryLive do
     <ZippikerWeb.CategoryFormComponent.form category_id={@category_id} />
     """
   end
-
-
- end
+end

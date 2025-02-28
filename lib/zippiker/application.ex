@@ -17,7 +17,8 @@ defmodule Zippiker.Application do
       # Start a worker by calling: Zippiker.Worker.start_link(arg)
       # {Zippiker.Worker, arg},
       # Start to serve requests, typically the last entry
-      ZippikerWeb.Endpoint
+      ZippikerWeb.Endpoint,
+      {AshAuthentication.Supervisor, [otp_app: :zippiker]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

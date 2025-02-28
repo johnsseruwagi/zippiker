@@ -18,23 +18,20 @@ defmodule ZippikerWeb.CategoriesLive do
     ~H"""
     <%!-- New Category Button --%>
     <.header>
-    <%!-- List category records --%>
-    {gettext("Categories")}
+      <%!-- List category records --%>
+      {gettext("Categories")}
 
-    <:actions>
-    <.link patch={~p"/categories/create"}>
-      <.button>New Category</.button>
-    </.link>
-    </:actions>
+      <:actions>
+        <.link patch={~p"/categories/create"}>
+          <.button>New Category</.button>
+        </.link>
+      </:actions>
     </.header>
-
 
     <.table id="knowledge-base-categories" rows={@categories}>
       <:col :let={row} label={gettext("Name")}>{row.name}</:col>
       <:col :let={row} label={gettext("Description")}>{row.description}</:col>
       <:action :let={row}>
-
-
         <%!-- Edit Category button --%>
         <.button
           id={"edit-button-#{row.id}"}
@@ -47,7 +44,6 @@ defmodule ZippikerWeb.CategoriesLive do
         >
           Edit
         </.button>
-
 
         <%!-- Delete Category Button --%>
         <.button
@@ -74,7 +70,6 @@ defmodule ZippikerWeb.CategoriesLive do
         |> noreply()
 
       {:error, _error} ->
-
         socket
         |> put_flash(:error, "Unable to delete category")
         |> noreply()
@@ -91,7 +86,7 @@ defmodule ZippikerWeb.CategoriesLive do
     socket
     |> assign_categories()
     |> noreply()
-    end
+  end
 
   defp assign_categories(socket) do
     {:ok, categories} =

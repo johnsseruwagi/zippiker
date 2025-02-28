@@ -1,8 +1,8 @@
 defmodule Zippiker.KnowledgeBase.Article do
   use Ash.Resource,
-      domain:  Zippiker.KnowledgeBase,
-      data_layer: AshPostgres.DataLayer,
-      notifiers:  Ash.Notifier.PubSub
+    domain: Zippiker.KnowledgeBase,
+    data_layer: AshPostgres.DataLayer,
+    notifiers: Ash.Notifier.PubSub
 
   postgres do
     table "articles"
@@ -26,6 +26,7 @@ defmodule Zippiker.KnowledgeBase.Article do
       :published,
       :category_id
     ]
+
     defaults [:create, :read, :update, :destroy]
 
     create :create_with_category do
@@ -49,15 +50,23 @@ defmodule Zippiker.KnowledgeBase.Article do
       description "Add a comment to an article"
       require_atomic? false
       argument :comment, :map, allow_nil?: false
-      change manage_relationship(:comment, :comments, type: :create )
+      change manage_relationship(:comment, :comments, type: :create)
     end
+  end
+
+  pub_sub do
+    module ZippikerWeb.Endpoint
+    prefix "articles"
+    publish_all :update, [[:id, nil]]
+    publish_all :create, [[:id, nil]]
+    publish_all :destroy, [[:id, nil]]
   end
 
   changes do
     change Zippiker.Changes.Slugify
   end
 
-    attributes do
+  attributes do
     uuid_primary_key :id
     attribute :title, :string, allow_nil?: false
     attribute :slug, :string
@@ -66,26 +75,26 @@ defmodule Zippiker.KnowledgeBase.Article do
     attribute :published, :boolean, default: false
     # Automatically adds, inserted_at and updated_at columns
     timestamps()
-    end
+  end
 
   relationships do
-    belongs_to :category,  Zippiker.KnowledgeBase.Category do
+    belongs_to :category, Zippiker.KnowledgeBase.Category do
       source_attribute :category_id
       allow_nil? false
     end
 
-    has_many :comments,  Zippiker.KnowledgeBase.Comment do
+    has_many :comments, Zippiker.KnowledgeBase.Comment do
       destination_attribute :article_id
     end
 
     # Many-to-many relationship with Tag
-    many_to_many :tags,  Zippiker.KnowledgeBase.Tag do
-      through  Zippiker.KnowledgeBase.ArticleTag
+    many_to_many :tags, Zippiker.KnowledgeBase.Tag do
+      through Zippiker.KnowledgeBase.ArticleTag
       source_attribute_on_join_resource :article_id
       destination_attribute_on_join_resource :tag_id
     end
 
-    has_many :article_feedbacks,  Zippiker.KnowledgeBase.ArticleFeedback do
+    has_many :article_feedbacks, Zippiker.KnowledgeBase.ArticleFeedback do
       destination_attribute :article_id
     end
 

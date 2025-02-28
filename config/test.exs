@@ -1,4 +1,5 @@
 import Config
+config :zippiker, token_signing_secret: "HAIQtDWwXhxYc6/TiUc3rOFfisGisrZ1"
 config :ash, disable_async?: true
 
 # Configure your database

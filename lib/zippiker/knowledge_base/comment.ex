@@ -1,7 +1,7 @@
 defmodule Zippiker.KnowledgeBase.Comment do
   use Ash.Resource,
-      domain: Zippiker.KnowledgeBase,
-      data_layer: AshPostgres.DataLayer
+    domain: Zippiker.KnowledgeBase,
+    data_layer: AshPostgres.DataLayer
 
   postgres do
     table "comments"
@@ -10,7 +10,7 @@ defmodule Zippiker.KnowledgeBase.Comment do
 
   actions do
     default_accept [:content]
-    defaults [:create, :read, :update, :destroy ]
+    defaults [:create, :read, :update, :destroy]
   end
 
   attributes do
@@ -18,6 +18,7 @@ defmodule Zippiker.KnowledgeBase.Comment do
     attribute :content, :string, allow_nil?: false
     timestamps()
   end
+
   relationships do
     belongs_to :article, Zippiker.KnowledgeBase.Article do
       source_attribute :article_id

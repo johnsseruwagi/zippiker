@@ -1,7 +1,7 @@
 defmodule Zippiker.KnowledgeBase.ArticleFeedback do
   use Ash.Resource,
-      domain: Zippiker.KnowledgeBase,
-      data_layer: AshPostgres.DataLayer
+    domain: Zippiker.KnowledgeBase,
+    data_layer: AshPostgres.DataLayer
 
   postgres do
     table "article_feedbacks"

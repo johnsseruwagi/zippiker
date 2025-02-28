@@ -7,7 +7,6 @@ defmodule Zippiker.Preparations.MonthToDate do
     today = Date.utc_today()
     beginning_of_current_month = Date.beginning_of_month(today)
 
-
     Ash.Query.filter(query, inserted_at >= ^beginning_of_current_month)
   end
 end

@@ -63,7 +63,7 @@ config :zippiker, ZippikerWeb.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :zippiker, dev_routes: true
+config :zippiker, dev_routes: true, token_signing_secret: "Cg2FtdcJfYXQ2i/mJDvoRJ+rsJwTlt6i"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

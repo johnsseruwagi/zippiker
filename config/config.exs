@@ -20,6 +20,8 @@ config :spark,
     remove_parens?: true,
     "Ash.Resource": [
       section_order: [
+        :authentication,
+        :tokens,
         :postgres,
         :resource,
         :code_interface,
@@ -43,7 +45,7 @@ config :spark,
 config :zippiker,
   ecto_repos: [Zippiker.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [Zippiker.Support, Zippiker.KnowledgeBase]
+  ash_domains: [Zippiker.Accounts, Zippiker.Support, Zippiker.KnowledgeBase]
 
 # Configures the endpoint
 config :zippiker, ZippikerWeb.Endpoint,

@@ -1,7 +1,7 @@
 defmodule Zippiker.KnowledgeBase.Tag do
   use Ash.Resource,
-      domain: Zippiker.KnowledgeBase,
-      data_layer: AshPostgres.DataLayer
+    domain: Zippiker.KnowledgeBase,
+    data_layer: AshPostgres.DataLayer
 
   postgres do
     table "tags"
@@ -12,7 +12,6 @@ defmodule Zippiker.KnowledgeBase.Tag do
     default_accept [:name, :slug]
     defaults [:create, :read, :update, :destroy]
   end
-
 
   attributes do
     uuid_primary_key :id

@@ -6,5 +6,4 @@ defmodule Zippiker.Preparations.LimitTo5 do
   def prepare(query, _opts, _context) do
     Ash.Query.limit(query, 5)
   end
-
 end

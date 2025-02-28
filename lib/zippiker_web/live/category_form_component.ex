@@ -3,7 +3,6 @@ defmodule ZippikerWeb.CategoryFormComponent do
 
   alias AshPhoenix.Form
 
-
   @doc """
   This funciton allows us to call this component as if it was a static component
 
@@ -21,7 +20,6 @@ defmodule ZippikerWeb.CategoryFormComponent do
   attr :id, :string, default: Ash.UUIDv7.generate()
   attr :category_id, :string, default: nil
 
-
   def form(assigns) do
     ~H"""
     <.live_component id={@id} module={__MODULE__} category_id={@category_id} />
@@ -30,7 +28,6 @@ defmodule ZippikerWeb.CategoryFormComponent do
 
   attr :id, :string, default: Ash.UUIDv7.generate()
   attr :category_id, :string, default: nil
-
 
   def render(assigns) do
     ~H"""
@@ -50,7 +47,6 @@ defmodule ZippikerWeb.CategoryFormComponent do
         <.input field={@form[:name]} label={gettext("Name")} />
         <.input field={@form[:description]} label={gettext("Description")} type="textarea" />
 
-
         <:actions>
           <.button>{gettext("Submit")}</.button>
         </:actions>
@@ -66,16 +62,13 @@ defmodule ZippikerWeb.CategoryFormComponent do
     |> ok()
   end
 
-
   # This callback does 2 main things:
   # 1. Validate the submitted form params against existing form
   # 2. Assign the validated form with its errors to the socket
 
-
   def handle_event("validate", %{"form" => params}, socket) do
     # 1. Validate the form
     form = Form.validate(socket.assigns.form, params)
-
 
     socket
     |> assign(:form, form)
@@ -89,12 +82,11 @@ defmodule ZippikerWeb.CategoryFormComponent do
   #    2.1 It add the flash notification for the
   #    2.2 It redirects the user to /categories listing
 
-
   # 3. If insertion fails:
   #    3.1 It reassign the form objects with error/ reasons for failure to display
   #    3.2 It adds a flash notification to inform the user that it has failed.
   #
-  def handle_event("save", %{"form" => params}, %{assigns: %{form: form}}=socket) do
+  def handle_event("save", %{"form" => params}, %{assigns: %{form: form}} = socket) do
     # 1. Attempt inserting into the database
     case Form.submit(form, params: params) do
       {:ok, category} ->
@@ -102,7 +94,6 @@ defmodule ZippikerWeb.CategoryFormComponent do
         |> put_flash(:info, "Category '#{category.name}' created!")
         |> redirect(to: ~p"/categories")
         |> noreply()
-
 
       # 2. Recover the error in case insertion failed.
       {:error, form} ->
@@ -113,22 +104,18 @@ defmodule ZippikerWeb.CategoryFormComponent do
     end
   end
 
-
   # Assign form to this component assigns
   defp assign_form(socket) do
     assign(socket, :form, get_form(socket.assigns))
   end
-
 
   # New category form
   # 1. Create a changeset for Category resource
   # 2. Inform Ash that it is for inserting new data in the data layer.
   # 3. Converts the form into liveview form so it can be handled by simple form
 
-
   # Prevent overriding existing form during update on changes
   defp get_form(%{form: _form} = assigns), do: assigns
-
 
   # Get form for creating a new category
   defp get_form(%{category_id: nil}) do
@@ -136,7 +123,6 @@ defmodule ZippikerWeb.CategoryFormComponent do
     |> Form.for_create(:create)
     |> to_form()
   end
-
 
   # Get form for updating an existing category
   defp get_form(%{category_id: category_id}) do
