@@ -5,9 +5,9 @@ defmodule Zippiker.Changes.Slugify do
   Generate and populate a `slug` attribute while inserting a new records
   """
   def change(changeset, _opts, _context) do
-   if changeset.action_type == create do
+   if changeset.action_type == :create do
      changeset
-     |> Ash.Changeset.force_change_attributes(:slug, generate_slug(changeset))
+     |> Ash.Changeset.force_change_attribute(:slug, generate_slug(changeset))
 
      else
      changeset
