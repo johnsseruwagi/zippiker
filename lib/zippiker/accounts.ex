@@ -5,5 +5,6 @@ defmodule Zippiker.Accounts do
   resources do
     resource Zippiker.Accounts.Token
     resource Zippiker.Accounts.User
+    resource Zippiker.Accounts.Team
   end
 end
