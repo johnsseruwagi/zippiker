@@ -22,9 +22,9 @@ defmodule ZippikerWeb.CategoriesLive do
       {gettext("Categories")}
 
       <:actions>
-        <.link patch={~p"/categories/create"}>
-          <.button>New Category</.button>
-        </.link>
+        <.button id="create-category-button" phx-click={JS.navigate(~p"/categories/create")}>
+        New Category
+         </.button>
       </:actions>
     </.header>
 
