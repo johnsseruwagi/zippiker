@@ -6,6 +6,10 @@ defmodule Zippiker.Accounts.Token do
     extensions: [AshAuthentication.TokenResource],
     data_layer: AshPostgres.DataLayer
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     table "tokens"
     repo Zippiker.Repo
