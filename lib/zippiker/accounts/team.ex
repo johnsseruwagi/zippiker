@@ -44,4 +44,16 @@ defmodule Zippiker.Accounts.Team do
     timestamps()
   end
 
+  relationships do
+    belongs_to :owner, Zippiker.Accounts.User do
+      source_attribute :owner_user_id
+    end
+
+    many_to_many :users, Zippiker.Accounts.User do
+      through Zippiker.Accounts.UserTeam
+      source_attribute_on_join_resource :team_id
+      destination_attribute_on_join_resource :user_id
+    end
+  end
+
 end
