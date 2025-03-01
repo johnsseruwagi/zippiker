@@ -3,6 +3,10 @@ defmodule Zippiker.KnowledgeBase.Tag do
     domain: Zippiker.KnowledgeBase,
     data_layer: AshPostgres.DataLayer
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     table "tags"
     repo Zippiker.Repo

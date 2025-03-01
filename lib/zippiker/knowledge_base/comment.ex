@@ -3,6 +3,10 @@ defmodule Zippiker.KnowledgeBase.Comment do
     domain: Zippiker.KnowledgeBase,
     data_layer: AshPostgres.DataLayer
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     table "comments"
     repo Zippiker.Repo

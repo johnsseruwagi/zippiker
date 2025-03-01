@@ -4,6 +4,10 @@ defmodule Zippiker.KnowledgeBase.Article do
     data_layer: AshPostgres.DataLayer,
     notifiers: Ash.Notifier.PubSub
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     table "articles"
     repo Zippiker.Repo
@@ -103,4 +107,5 @@ defmodule Zippiker.KnowledgeBase.Article do
       count :tag_count, :tags
     end
   end
+
 end

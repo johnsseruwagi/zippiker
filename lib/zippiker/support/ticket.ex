@@ -4,10 +4,15 @@ defmodule Zippiker.Support.Ticket do
     domain: Zippiker.Support,
     data_layer: AshPostgres.DataLayer
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     table "tickets"
     repo Zippiker.Repo
   end
+
 
   actions do
     defaults [:read]
@@ -50,4 +55,5 @@ defmodule Zippiker.Support.Ticket do
       public? true
     end
   end
+
 end

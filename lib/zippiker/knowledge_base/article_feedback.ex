@@ -3,6 +3,10 @@ defmodule Zippiker.KnowledgeBase.ArticleFeedback do
     domain: Zippiker.KnowledgeBase,
     data_layer: AshPostgres.DataLayer
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     table "article_feedbacks"
     repo Zippiker.Repo
@@ -22,5 +26,9 @@ defmodule Zippiker.KnowledgeBase.ArticleFeedback do
       source_attribute :article_id
       allow_nil? false
     end
+  end
+
+  multitenancy do
+    strategy :context
   end
 end

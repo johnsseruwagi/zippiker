@@ -7,6 +7,10 @@ defmodule Zippiker.KnowledgeBase.Category do
     # Tell Ash to broadcast/ Emit events via pubsub
     notifiers: Ash.Notifier.PubSub
 
+  multitenancy do
+    strategy :context
+  end
+
   postgres do
     # Tell Ash that this resource data is stored in a table named "categories"
 
