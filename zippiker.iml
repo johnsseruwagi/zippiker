@@ -127,6 +127,33 @@
       <excludeFolder url="file://$MODULE_DIR$/deps" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ash_authentication" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ash_authentication_phoenix" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/assent" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/bcrypt_elixir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/comeonin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_make" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/joken" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/jose" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/mix_test_watch" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/phoenix_html_helpers" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/phoenix_view" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/picosat_elixir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/slugify" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ash_authentication" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/ash_authentication_phoenix" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/assent" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/bcrypt_elixir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/comeonin" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/elixir_make" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/file_system" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/joken" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/jose" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mix_test_watch" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/phoenix_html_helpers" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/phoenix_view" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/picosat_elixir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/slugify" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sourceror" level="project" />
@@ -253,5 +280,30 @@
     <orderEntry type="library" name="mox" level="project" />
     <orderEntry type="library" name="hpack" level="project" />
     <orderEntry type="library" name="faker" level="project" />
+    <orderEntry type="library" name="ash_authentication_phoenix" level="project" />
+    <orderEntry type="library" name="ash_authentication" level="project" />
+    <orderEntry type="library" name="bcrypt_elixir" level="project" />
+    <orderEntry type="library" name="slugify" level="project" />
+    <orderEntry type="library" name="makeup_html" level="project" />
+    <orderEntry type="library" name="assent" level="project" />
+    <orderEntry type="library" name="joken" level="project" />
+    <orderEntry type="library" name="absinthe_plug" level="project" />
+    <orderEntry type="library" name="ash_graphql" level="project" />
+    <orderEntry type="library" name="ash_json_api" level="project" />
+    <orderEntry type="library" name="comeonin" level="project" />
+    <orderEntry type="library" name="elixir_make" level="project" />
+    <orderEntry type="library" name="jose" level="project" />
+    <orderEntry type="library" name="certifi" level="project" />
+    <orderEntry type="library" name="ssl_verify_fun" level="project" />
+    <orderEntry type="library" name="test_server" level="project" />
+    <orderEntry type="library" name="junit_formatter" level="project" />
+    <orderEntry type="library" name="jsone" level="project" />
+    <orderEntry type="library" name="jsx" level="project" />
+    <orderEntry type="library" name="libdecaf" level="project" />
+    <orderEntry type="library" name="libsodium" level="project" />
+    <orderEntry type="library" name="ojson" level="project" />
+    <orderEntry type="library" name="poison" level="project" />
+    <orderEntry type="library" name="thoas" level="project" />
+    <orderEntry type="library" name="temporary_env" level="project" />
   </component>
 </module>

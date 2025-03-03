@@ -31,7 +31,7 @@ defmodule Zippiker.Accounts.Team do
   end
 
   actions do
-    default_accept [:name, :domain, :description]
+    default_accept [:name, :domain, :description, :owner_user_id]
     defaults [:create, :read]
   end
 
