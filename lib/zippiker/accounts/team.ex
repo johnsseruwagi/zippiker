@@ -32,7 +32,13 @@ defmodule Zippiker.Accounts.Team do
 
   actions do
     default_accept [:name, :domain, :description, :owner_user_id]
-    defaults [:create, :read]
+    defaults [:read]
+
+    create :create do
+    primary? true # Default create action
+    change Zippiker.Accounts.Team.Changes.AssociateUserToTeam
+    change Zippiker.Accounts.Team.Changes.SetOwnerCurrentTeam
+    end
   end
 
   attributes do

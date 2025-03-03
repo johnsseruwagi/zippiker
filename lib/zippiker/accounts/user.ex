@@ -58,6 +58,15 @@ defmodule Zippiker.Accounts.User do
   actions do
     defaults [:read]
 
+    actions do
+      # ... other actions ...
+      update :set_current_team do
+        description "Sets the user's current team."
+        argument :team, :string, allow_nil?: false, sensitive?: false
+        change set_attribute(:current_team, arg(:team))
+      end
+    end
+
     read :get_by_subject do
       description "Get a user by the subject claim in a JWT"
       argument :subject, :string, allow_nil?: false

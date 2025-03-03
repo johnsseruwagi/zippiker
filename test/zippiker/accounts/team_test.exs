@@ -17,23 +17,11 @@ defmodule Zippiker.Accounts.TeamTest do
         owner_user_id: user.id
       }
 
-       team = Ash.create!(Zippiker.Accounts.Team, team_attrs)
+       team =
+       Zippiker.Accounts.Team
+       |> Ash.Changeset.for_create(:create, team_attrs)
+       |> Ash.create!()
 
-      # Create a category in the team_1 schema
-      attrs = %{
-        name: "Billing",
-        slug: "billing",
-        description: "Refund requests, billing and account issues"
-      }
-
-      {:ok, _category} =
-        Zippiker.KnowledgeBase.Category
-        |> Ash.Changeset.for_create(
-             :create,
-             attrs,
-             tenant: team.domain  # <-- Specify which tenant should store this data
-           )
-        |> Ash.create()
 
       # New team should be stored successfully
       assert Zippiker.Accounts.Team
