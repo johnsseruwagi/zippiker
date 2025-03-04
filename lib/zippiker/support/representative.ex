@@ -4,10 +4,6 @@ defmodule Zippiker.Support.Representative do
     domain: Zippiker.Support,
     data_layer: AshPostgres.DataLayer
 
-  multitenancy do
-    strategy :context
-  end
-
   postgres do
     table "representatives"
     repo Zippiker.Repo

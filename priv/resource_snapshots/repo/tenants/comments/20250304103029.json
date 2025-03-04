@@ -17,21 +17,31 @@
       "primary_key?": false,
       "references": null,
       "size": null,
-      "source": "subject",
+      "source": "content",
       "type": "text"
     },
     {
       "allow_nil?": false,
-      "default": "\"open\"",
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
       "generated?": false,
       "primary_key?": false,
       "references": null,
       "size": null,
-      "source": "status",
-      "type": "text"
+      "source": "inserted_at",
+      "type": "utc_datetime_usec"
     },
     {
-      "allow_nil?": true,
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "primary_key?": false,
+      "references": null,
+      "size": null,
+      "source": "updated_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
       "default": "nil",
       "generated?": false,
       "primary_key?": false,
@@ -48,15 +58,15 @@
           "global": false,
           "strategy": "context"
         },
-        "name": "tickets_representative_id_fkey",
+        "name": "comments_article_id_fkey",
         "on_delete": null,
         "on_update": null,
         "primary_key?": true,
         "schema": "public",
-        "table": "representatives"
+        "table": "articles"
       },
       "size": null,
-      "source": "representative_id",
+      "source": "article_id",
       "type": "uuid"
     }
   ],
@@ -65,7 +75,7 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "18ECE22F4C5DFA6A18B621CFE816FED1E54A570675B8FA00E62BB2E88BA3C0B1",
+  "hash": "D968DAA3A81D655E1F9B91743E69873693D5A52A87BCBB4F6F7C65D136AB2DB4",
   "identities": [],
   "multitenancy": {
     "attribute": null,
@@ -74,5 +84,5 @@
   },
   "repo": "Elixir.Zippiker.Repo",
   "schema": null,
-  "table": "tickets"
+  "table": "comments"
 }

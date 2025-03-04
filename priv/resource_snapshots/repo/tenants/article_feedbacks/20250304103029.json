@@ -11,14 +11,14 @@
       "type": "uuid"
     },
     {
-      "allow_nil?": false,
-      "default": "nil",
+      "allow_nil?": true,
+      "default": "false",
       "generated?": false,
       "primary_key?": false,
       "references": null,
       "size": null,
-      "source": "name",
-      "type": "text"
+      "source": "helpful",
+      "type": "boolean"
     },
     {
       "allow_nil?": true,
@@ -27,17 +27,7 @@
       "primary_key?": false,
       "references": null,
       "size": null,
-      "source": "slug",
-      "type": "text"
-    },
-    {
-      "allow_nil?": true,
-      "default": "nil",
-      "generated?": false,
-      "primary_key?": false,
-      "references": null,
-      "size": null,
-      "source": "description",
+      "source": "feedback",
       "type": "text"
     },
     {
@@ -47,26 +37,45 @@
       "primary_key?": false,
       "references": null,
       "size": null,
-      "source": "inserted_at",
+      "source": "created_at",
       "type": "utc_datetime_usec"
     },
     {
       "allow_nil?": false,
-      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "default": "nil",
       "generated?": false,
       "primary_key?": false,
-      "references": null,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": false,
+          "strategy": "context"
+        },
+        "name": "article_feedbacks_article_id_fkey",
+        "on_delete": null,
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "articles"
+      },
       "size": null,
-      "source": "updated_at",
-      "type": "utc_datetime_usec"
+      "source": "article_id",
+      "type": "uuid"
     }
   ],
   "base_filter": null,
   "check_constraints": [],
   "custom_indexes": [],
   "custom_statements": [],
-  "has_create_action": true,
-  "hash": "3F67D7FF968243814775B570B71D11307509C917C2F868F7A6B311DCAA004C06",
+  "has_create_action": false,
+  "hash": "86528EE831652F2FD4CF07AC65446C17E645728D53EEB5CD14BFF87D84FD069F",
   "identities": [],
   "multitenancy": {
     "attribute": null,
@@ -75,5 +84,5 @@
   },
   "repo": "Elixir.Zippiker.Repo",
   "schema": null,
-  "table": "categories"
+  "table": "article_feedbacks"
 }

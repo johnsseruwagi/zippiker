@@ -8,13 +8,6 @@ defmodule Zippiker.Repo.TenantMigrations.AddMultitenancyTables do
   use Ecto.Migration
 
   def up do
-    create table(:tickets, primary_key: false, prefix: prefix()) do
-      add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
-      add :subject, :text, null: false
-      add :status, :text, null: false, default: "open"
-      add :representative_id, :uuid
-    end
-
     create table(:tags, primary_key: false, prefix: prefix()) do
       add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
       add :name, :text, null: false
@@ -27,24 +20,6 @@ defmodule Zippiker.Repo.TenantMigrations.AddMultitenancyTables do
       add :updated_at, :utc_datetime_usec,
         null: false,
         default: fragment("(now() AT TIME ZONE 'utc')")
-    end
-
-    create table(:representatives, primary_key: false, prefix: prefix()) do
-      add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
-    end
-
-    alter table(:tickets, prefix: prefix()) do
-      modify :representative_id,
-             references(:representatives,
-               column: :id,
-               name: "tickets_representative_id_fkey",
-               type: :uuid,
-               prefix: prefix()
-             )
-    end
-
-    alter table(:representatives, prefix: prefix()) do
-      add :name, :text, null: false
     end
 
     create table(:comments, primary_key: false, prefix: prefix()) do
@@ -208,20 +183,6 @@ defmodule Zippiker.Repo.TenantMigrations.AddMultitenancyTables do
 
     drop table(:comments, prefix: prefix())
 
-    alter table(:representatives, prefix: prefix()) do
-      remove :name
-    end
-
-    drop constraint(:tickets, "tickets_representative_id_fkey")
-
-    alter table(:tickets, prefix: prefix()) do
-      modify :representative_id, :uuid
-    end
-
-    drop table(:representatives, prefix: prefix())
-
     drop table(:tags, prefix: prefix())
-
-    drop table(:tickets, prefix: prefix())
   end
 end
