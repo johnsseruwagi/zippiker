@@ -97,6 +97,7 @@ defmodule Zippiker.KnowledgeBase.Category do
 
       # Tell Ash that the articles table has a column named "category_id" that references this resource
       destination_attribute :category_id
+      # This resource has a source_attribute option that defaults to the :id attribute
     end
 
     aggregates do

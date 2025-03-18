@@ -56,14 +56,13 @@ defmodule Zippiker.KnowledgeBase.Article do
       argument :comment, :map, allow_nil?: false
       change manage_relationship(:comment, :comments, type: :create)
     end
-  end
 
-  pub_sub do
-    module ZippikerWeb.Endpoint
-    prefix "articles"
-    publish_all :update, [[:id, nil]]
-    publish_all :create, [[:id, nil]]
-    publish_all :destroy, [[:id, nil]]
+    update :add_feedback do
+      description "Add feedback to an article"
+      require_atomic? false
+      argument :feedback, :map, allow_nil?: false
+      change manage_relationship(:feedback, :feedbacks, type: :create)
+    end
   end
 
   changes do

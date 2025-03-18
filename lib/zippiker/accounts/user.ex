@@ -5,8 +5,8 @@ defmodule Zippiker.Accounts.User do
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshAuthentication],
     data_layer: AshPostgres.DataLayer,
-  # Register notifications to call after actions are successfully done.
-  notifiers: [Zippiker.Accounts.User.Notifiers.CreatePersonalTeamNotification]
+    # Register notifications to call after actions are successfully done.
+    notifiers: [Zippiker.Accounts.User.Notifiers.CreatePersonalTeamNotification]
 
   authentication do
     add_ons do
