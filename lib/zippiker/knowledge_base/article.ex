@@ -11,6 +11,10 @@ defmodule Zippiker.KnowledgeBase.Article do
   postgres do
     table "articles"
     repo Zippiker.Repo
+    # Delete this article if related category is deleted
+    references do
+      reference :category, on_delete: :delete
+    end
   end
 
   pub_sub do
@@ -61,7 +65,7 @@ defmodule Zippiker.KnowledgeBase.Article do
       description "Add feedback to an article"
       require_atomic? false
       argument :feedback, :map, allow_nil?: false
-      change manage_relationship(:feedback, :feedbacks, type: :create)
+      change manage_relationship(:feedback, :article_feedbacks, type: :create)
     end
   end
 

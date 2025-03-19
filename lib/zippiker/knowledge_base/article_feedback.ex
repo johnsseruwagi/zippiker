@@ -12,6 +12,10 @@ defmodule Zippiker.KnowledgeBase.ArticleFeedback do
     repo Zippiker.Repo
   end
 
+  actions do
+    default_accept [:helpful, :feedback, :article_id]
+    defaults [:create, :read, :update, :destroy]
+  end
   attributes do
     uuid_primary_key :id
 
@@ -28,7 +32,4 @@ defmodule Zippiker.KnowledgeBase.ArticleFeedback do
     end
   end
 
-  multitenancy do
-    strategy :context
-  end
 end
