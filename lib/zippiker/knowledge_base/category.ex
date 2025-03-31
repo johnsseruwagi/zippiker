@@ -26,6 +26,7 @@ defmodule Zippiker.KnowledgeBase.Category do
     end
   end
 
+
   actions do
     # Tell Ash what columns to accept while inserting or updating
     default_accept [:name, :slug, :description]
@@ -50,7 +51,7 @@ defmodule Zippiker.KnowledgeBase.Category do
     read :most_recent do
       prepare Zippiker.Preparations.LimitTo5
       prepare Zippiker.Preparations.MonthToDate
-      prepare Zippiker.Preparations.OrderByMostRecent
+      prepare {Zippiker.Preparations.OrderByMostRecent, attribute: :inserted_at}
     end
   end
 

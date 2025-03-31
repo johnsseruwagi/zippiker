@@ -5,9 +5,7 @@ defmodule ZippikerWeb.CategoriesLive do
   def mount(_params, _session, socket) do
     # if the user is connected then subscribe to all events/ topic
     # with categories event
-    if connected?(socket) do
-      ZippikerWeb.Endpoint.subscribe("categories")
-    end
+    if connected?(socket), do: ZippikerWeb.Endpoint.subscribe("categories")
 
     socket
     |> assign_categories()

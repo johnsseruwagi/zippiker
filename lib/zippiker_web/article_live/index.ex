@@ -60,9 +60,7 @@ defmodule ZippikerWeb.ArticleLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    if connected?(socket) do
-      ZippikerWeb.Endpoint.subscribe("articles")
-    end
+    if connected?(socket), do: ZippikerWeb.Endpoint.subscribe("articles")
 
     {:ok,
      socket

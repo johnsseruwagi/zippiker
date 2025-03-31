@@ -3,7 +3,20 @@ defmodule Zippiker.Preparations.OrderByMostRecent do
 
   require Ash.Query
 
-  def prepare(query, _opts, _context) do
-    Ash.Query.sort(query, inserted_at: :desc)
+  @impl true
+  def init(opts) do
+    if is_atom(opts[:attribute]) do
+      {:ok, opts}
+
+      else
+      {:error, "attribute must be an atom!"}
+    end
+  end
+
+  @impl true
+  def prepare(query, opts, _context) do
+    attribute = opts[:attribute]
+    query
+    |> Ash.Query.sort([{attribute :desc}])
   end
 end
