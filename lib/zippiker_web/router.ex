@@ -25,7 +25,8 @@ defmodule ZippikerWeb.Router do
   scope "/", ZippikerWeb do
     pipe_through :browser
 
-    ash_authentication_live_session :authenticated_routes,on_mount: {ZippikerWeb.LiveUserAuth, :live_user_required} do
+    ash_authentication_live_session :authenticated_routes,
+     on_mount: {ZippikerWeb.LiveUserAuth, :live_user_required} do
 
          scope "/categories" do
            live "/", CategoriesLive

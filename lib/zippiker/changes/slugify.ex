@@ -1,13 +1,26 @@
 defmodule Zippiker.Changes.Slugify do
   use Ash.Resource.Change
 
+
+  @impl true
+  def init(opts) do
+    if is_atom(opts[:attribute]) do
+      {:ok, opts}
+
+      else
+      {:error, "attribute must be an atom!"}
+    end
+  end
   @doc """
   Generate and populate a `slug` attribute while inserting a new records
   """
-  def change(changeset, _opts, context) do
+  @impl true
+  def change(changeset, opts, context) do
     if changeset.action_type == :create do
+
+      attribute = opts[:attribute]
       changeset
-      |> Ash.Changeset.force_change_attribute(:slug, generate_slug(changeset, context))
+      |> Ash.Changeset.force_change_attribute(attribute, generate_slug(changeset, context))
     else
       changeset
     end

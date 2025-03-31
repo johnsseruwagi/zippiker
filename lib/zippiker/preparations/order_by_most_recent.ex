@@ -17,6 +17,6 @@ defmodule Zippiker.Preparations.OrderByMostRecent do
   def prepare(query, opts, _context) do
     attribute = opts[:attribute]
     query
-    |> Ash.Query.sort([{attribute :desc}])
+    |> Ash.Query.sort([{attribute, :desc}])
   end
 end
