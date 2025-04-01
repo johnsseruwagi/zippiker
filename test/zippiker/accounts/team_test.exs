@@ -23,6 +23,7 @@ defmodule Zippiker.Accounts.TeamTest do
        |> Ash.create!()
 
 
+
       # New team should be stored successfully
       assert Zippiker.Accounts.Team
              |> Ash.Query.filter(domain == ^team.domain)
