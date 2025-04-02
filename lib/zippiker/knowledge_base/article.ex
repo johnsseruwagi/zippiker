@@ -67,6 +67,12 @@ defmodule Zippiker.KnowledgeBase.Article do
       argument :feedback, :map, allow_nil?: false
       change manage_relationship(:feedback, :article_feedbacks, type: :create)
     end
+
+    destroy :destroy do
+      description "Destroy article and its comments"
+      primary? true
+      change Zippiker.KnowledgeBase.Article.Changes.DeleteRelatedComment
+    end
   end
 
   changes do
