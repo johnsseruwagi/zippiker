@@ -24,6 +24,14 @@ defmodule Zippiker.KnowledgeBase.Tag do
     timestamps()
   end
 
+  changes do
+    change Zippiker.Changes.SetTenant
+  end
+
+  preparations do
+    prepare Zippiker.Preparations.SetTenant
+  end
+
   relationships do
     many_to_many :articles, Zippiker.KnowledgeBase.Article do
       through Zippiker.KnowledgeBase.ArticleTag

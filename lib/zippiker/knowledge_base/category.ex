@@ -78,6 +78,11 @@ defmodule Zippiker.KnowledgeBase.Category do
 
   changes do
     change {Zippiker.Changes.Slugify, attribute: :slug}
+    change Zippiker.Changes.SetTenant
+  end
+
+  preparations do
+    prepare Zippiker.Preparations.SetTenant
   end
 
   # Tell Ash what columns the resource has and their types and validations

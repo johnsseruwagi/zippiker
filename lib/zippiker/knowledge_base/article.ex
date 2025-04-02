@@ -70,7 +70,12 @@ defmodule Zippiker.KnowledgeBase.Article do
   end
 
   changes do
-    change Zippiker.Changes.Slugify
+    change {Zippiker.Changes.Slugify, attribute: :slug}
+    change Zippiker.Changes.SetTenant
+  end
+
+  preparations do
+    prepare Zippiker.Preparations.SetTenant
   end
 
   attributes do
