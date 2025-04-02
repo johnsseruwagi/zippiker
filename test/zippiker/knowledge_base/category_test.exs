@@ -31,5 +31,18 @@ defmodule Zippiker.KnowledgeBase.CategoryTest do
       refute category.inserted_at |> is_nil()
       refute category.updated_at |> is_nil()
     end
+
+    test "Can read category" do
+
+    # create user
+
+    user = create_user()
+    categories =
+    Zippiker.KnowledgeBase.Category
+    |> Ash.read!(actor: user)
+
+    assert categories == [] || categories
+
+    end
   end
 end

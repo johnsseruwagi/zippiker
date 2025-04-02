@@ -11,7 +11,7 @@ defmodule ZippikerWeb.CreateCategoryLive do
     <.back navigate={~p"/categories"}>{gettext("Back to categories")}</.back>
 
     <%!-- Typical simple form from core_components --%>
-    <ZippikerWeb.CategoryFormComponent.form />
+    <ZippikerWeb.CategoryFormComponent.form actor={@current_user} />
     """
   end
 end

@@ -60,8 +60,8 @@ defmodule ZippikerWeb.CategoriesLive do
   end
 
   # Responds when a user clicks on trash button
-  def handle_event("delete-" <> category_id, _params, socket) do
-    case destroy_record(category_id) do
+  def handle_event("delete-" <> category_id, _params, %{assigns: %{current_user: current_user}} = socket) do
+    case destroy_record(category_id, current_user) do
       :ok ->
         socket
         |> put_flash(:info, "Category deleted successfully")
@@ -86,17 +86,21 @@ defmodule ZippikerWeb.CategoriesLive do
     |> noreply()
   end
 
-  defp assign_categories(socket) do
-    {:ok, categories} =
-      Category
-      |> Ash.read()
-
-    assign(socket, :categories, categories)
+  defp assign_categories(%{assigns: %{current_user: current_user}} = socket) do
+   socket |>  assign(:categories, get_articles(current_user))
   end
 
-  defp destroy_record(category_id) do
+  defp get_articles(actor) do
+    require Ash.Query
+
     Category
-    |> Ash.get!(category_id)
-    |> Ash.destroy()
+    |> Ash.Query.load(:article_count)
+    |> Ash.read!(actor: actor)
+  end
+
+  defp destroy_record(category_id, actor) do
+    Category
+    |> Ash.get!(category_id, actor: actor)
+    |> Ash.destroy(actor: actor)
   end
 end
