@@ -17,16 +17,19 @@ defmodule AuthCase do
   def create_user() do
     user_params = %{
       email: "john.tester@example.com",
-      password: "12345678",
-      password_confirmation: "12345678"
-    }
+      current_team: "team_1"}
 
-    Zippiker.Accounts.User
-    |> Ash.create!(user_params, action: :register_with_password, authorize?: false)
+    user = Ash.Seed.seed!(Zippiker.Accounts.User, user_params)
 
-    Zippiker.Accounts.User
-    |> Ash.Query.filter(email == ^user_params.email)
-    |> Ash.read_first!(authorize?: false)
+    team_attrs = %{
+      name: "Team 1",
+      domain: "team_1",
+      owner_user_id: user.id}
+
+    team = Ash.Seed.seed!(Zippiker.Accounts.Team, team_attrs)
+    Ash.Seed.seed!(Zippiker.Accounts.UserTeam, %{user_id: user.id, team_id: team.id})
+
+    user
   end
 
 end

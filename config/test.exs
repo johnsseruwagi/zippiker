@@ -2,7 +2,7 @@ import Config
 config :zippiker, token_signing_secret: "HAIQtDWwXhxYc6/TiUc3rOFfisGisrZ1"
 config :ash, disable_async?: true
 config :ash, :missed_notifications, :ignore
-
+config :bcrypt_elixir, log_rounds: 1
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used
