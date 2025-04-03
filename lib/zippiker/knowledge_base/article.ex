@@ -35,7 +35,7 @@ defmodule Zippiker.KnowledgeBase.Article do
       :category_id
     ]
 
-    defaults [:create, :read, :update, :destroy]
+    defaults [:create, :read, :update]
 
     create :create_with_category do
       description "Create an article and its category at the same time"

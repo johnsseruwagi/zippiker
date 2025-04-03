@@ -7,5 +7,6 @@ defmodule Zippiker.Accounts do
     resource Zippiker.Accounts.User
     resource Zippiker.Accounts.Team
     resource Zippiker.Accounts.UserTeam
+    resource Zippiker.Accounts.Permission
   end
 end

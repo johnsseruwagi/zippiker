@@ -26,7 +26,7 @@ defmodule Zippiker.KnowledgeBase.Article.Changes.DeleteRelatedComment do
     |> Ash.read!(opts)
   end
 
-  defp delete_comments([], opts), do: %Ash.BulkResult{status: :success}
+  defp delete_comments([], _opts), do: %Ash.BulkResult{status: :success}
 
   defp delete_comments(records, opts), do: Ash.bulk_destroy!(records, :destroy, %{}, opts)
 
