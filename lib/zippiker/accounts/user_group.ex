@@ -1,6 +1,6 @@
 defmodule Zippiker.Accounts.UserGroup do
   use Ash.Resource,
-    otp_app: domain,
+    otp_app: :zippiker,
     domain: Zippiker.Accounts,
     data_layer: AshPostgres.DataLayer,
     notifiers: [Ash.Notifier.PubSub]
@@ -47,7 +47,6 @@ defmodule Zippiker.Accounts.UserGroup do
         allow_nil? false
       end
     end
-
     identities do
       identity :unique_name, [:user_id, :group_id]
     end
