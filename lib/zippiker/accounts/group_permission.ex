@@ -11,7 +11,7 @@ defmodule Zippiker.Accounts.GroupPermission do
     end
 
     actions do
-      default_accept [:permission_group, :group_id]
+      default_accept [:permission_id, :group_id]
       defaults [:create, :read, :update, :destroy]
     end
 
