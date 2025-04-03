@@ -5,7 +5,14 @@ defmodule Zippiker.KnowledgeBase.Category do
     # Tell Ash that this resource data is stored in a postgresql
     data_layer: AshPostgres.DataLayer,
     # Tell Ash to broadcast/ Emit events via pubsub
-    notifiers: Ash.Notifier.PubSub
+    notifiers: Ash.Notifier.PubSub,
+    authorizers: Ash.Policy.Authorizer
+
+  policies do
+    policy always() do
+      authorize_if Zippiker.Accounts.Checks.Authorized
+    end
+  end
 
   multitenancy do
     strategy :context
