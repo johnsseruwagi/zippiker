@@ -10,5 +10,6 @@ defmodule Zippiker.Accounts do
     resource Zippiker.Accounts.Permission
     resource Zippiker.Accounts.Group
     resource Zippiker.Accounts.GroupPermission
+    resource Zippiker.Accounts.UserGroup
   end
 end
