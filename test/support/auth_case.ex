@@ -32,4 +32,36 @@ defmodule AuthCase do
     user
   end
 
+  def get_group(user \\ nil) do
+    actor = user || create_user()
+
+    case Ash.read_first(Zippiker.Accounts.Group, actor: actor) do
+      {:ok, nil} -> create_groups(actor) |> Enum.at(0)
+      {:ok, group} -> group
+    end
+  end
+
+  def get_groups(user \\ nil) do
+    actor = user || create_user()
+
+    case Ash.read(Zippiker.Accounts.Group, actor: actor) do
+      {:ok, []} -> create_groups(actor)
+      {:ok, groups} -> groups
+    end
+  end
+
+  def create_groups(user \\ nil) do
+    actor = user || create_user()
+
+    group_attrs = [
+      %{name: "Accountant", description: "Finance accountant"},
+      %{name: "Manager", description: "Team manager"},
+      %{name: "Developer", description: "Software developer"},
+      %{name: "Admin", description: "System administrator"},
+      %{name: "HR", description: "Human resources specialist"}
+    ]
+
+    Ash.Seed.seed!(Zippiker.Accounts.Group, group_attrs, tenant: actor.current_team)
+  end
+
 end

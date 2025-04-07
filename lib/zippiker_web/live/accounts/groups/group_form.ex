@@ -29,15 +29,9 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
       group_id={@group_id}
       show_button={@show_button}
       module={__MODULE__}
-    \>
-    """
-  end
+    />
 
-  def update(assigns, socket) do
-    socket
-    |> assign(assigns)
-    |> assign_form()
-    |> ok()
+    """
   end
 
   attr :id, :string, required: true
@@ -105,6 +99,13 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
     """
   end
 
+  def update(assigns, socket) do
+    socket
+    |> assign(assigns)
+    |> assign_form()
+    |> ok()
+  end
+
   def handle_event("validate", %{"form" => attrs}, %{assigns: %{form: form}} = socket) do
     socket
     |> assign(:form, Form.validate(form, attrs))
@@ -115,7 +116,7 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
       {:ok, _group} ->
         socket
         |> put_component_flash(:info, gettext("Access Group Submitted."))
-        |> cancel_model("access-group-form-modal#{group_id}")
+        |> cancel_modal("access-group-form-modal#{group_id}")
         |> noreply()
 
       {:error, form} ->

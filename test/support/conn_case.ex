@@ -28,6 +28,15 @@ defmodule ZippikerWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import ZippikerWeb.ConnCase
+
+      import AuthCase
+
+      # Add convenience for testing with Gettext translations
+      use Gettext, backend: ZippikerWeb.Gettext
+
+      # Import Conveniences for testing with Components
+      import Phoenix.LiveViewTest
+      import Phoenix.Component
     end
   end
 
