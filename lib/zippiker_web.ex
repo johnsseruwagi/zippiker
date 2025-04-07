@@ -63,6 +63,27 @@ defmodule ZippikerWeb do
     quote do
       use Phoenix.LiveComponent
 
+      @doc """
+      Puts flash from a live components
+      ### Example
+        socket
+        |> put_component_flash(:info, "Saved!")
+        |> noreply()
+
+      """
+
+      def put_component_flash(socket, type, message) do
+        send(self(), {:put_flash, type, message})
+        socket
+      end
+
+      @doc """
+      Use Phoenix inbuild javascript executor to cancel modal
+      """
+      def cancel_modal(socket, id) do
+        push_event(socket, "js-exec", %{to: "##{@id}", attr: "data-cancel"})
+      end
+
       unquote(html_helpers())
     end
   end
