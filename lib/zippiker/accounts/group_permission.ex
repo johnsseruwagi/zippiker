@@ -11,7 +11,7 @@ defmodule Zippiker.Accounts.GroupPermission do
     end
 
     actions do
-      default_accept [:permission_id, :group_id]
+      default_accept [:resource, :action, :group_id]
       defaults [:create, :read, :update, :destroy]
     end
 
@@ -29,6 +29,8 @@ defmodule Zippiker.Accounts.GroupPermission do
 
     attributes do
       uuid_v7_primary_key :id
+      attribute :action, :string, allow_nil?: false
+      attribute :resource, :string, allow_nil?: false
 
       timestamps()
     end
@@ -40,14 +42,9 @@ defmodule Zippiker.Accounts.GroupPermission do
         allow_nil? false
       end
 
-      belongs_to :permission, Zippiker.Accounts.Permission do
-        description "Permission for user access group"
-        source_attribute :permission_id
-        allow_nil? false
-      end
     end
 
     identities do
-      identity :unique_name, [:group_id, :permission_id ]
+      identity :unique_name, [:group_id, :resource, :action ]
     end
 end

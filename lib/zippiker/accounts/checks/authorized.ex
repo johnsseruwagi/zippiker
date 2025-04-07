@@ -12,7 +12,7 @@ defmodule Zippiker.Accounts.Checks.Authorized do
   """
   @impl true
   def match?(nil = _actor, _context, _opts), do: false
-  def match?(actor, context, opts), do: authorized?(actor, context)
+  def match?(actor, context, _opts), do: authorized?(actor, context)
 
   # """
   # 1. If the actor is the team owner, then authorize since he's the owner
@@ -42,6 +42,6 @@ defmodule Zippiker.Accounts.Checks.Authorized do
     |> Ash.Query.load(group: :permission)
     |> Ash.Query.filter(groups.permissions.resource == ^context.resource)
     |> Ash.Query.filter(groups.permissions.action == ^context.subject.action.type)
-    |> Ash.exists?(tenant: ^actor.current_team, authorize?: false)
+    |> Ash.exists?(tenant: actor.current_team, authorize?: false)
   end
 end

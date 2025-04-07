@@ -33,4 +33,11 @@ defmodule Zippiker.Accounts.Group do
 
       timestamps()
     end
+
+    relationships do
+      has_many :permissions, Zippiker.Accounts.GroupPermission do
+        description "list of permissions assigned to this group"
+        destination_attribute :group_id
+      end
+    end
 end
