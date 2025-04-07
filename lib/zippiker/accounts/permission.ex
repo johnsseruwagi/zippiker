@@ -6,7 +6,7 @@ defmodule Zippiker.Accounts.Permission do
         iex> [%{resource: Zippiker.Accounts.GroupPermission, action: :create}]
   """
 
-  def get_permission() do
+  def get_permissions() do
     get_all_domain_resources()
     |> Enum.map(&map_resource_actions/1)
     |> Enum.flat_map(& &1)
