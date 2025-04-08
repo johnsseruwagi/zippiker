@@ -15,15 +15,22 @@ defmodule AuthCase do
   end
 
   def create_user() do
+    # Create a user and the person team automatically.
+    # The person team will be the tenant for the query
+    count = System.unique_integer([:monotonic, :positive])
+
+    team_domain = "team_#{count}"
     user_params = %{
-      email: "john.tester@example.com",
-      current_team: "team_1"}
+      email: "john.tester_#{count}@example.com",
+      current_team: team_domain
+    }
 
     user = Ash.Seed.seed!(Zippiker.Accounts.User, user_params)
 
+    # Create a team for the user
     team_attrs = %{
-      name: "Team 1",
-      domain: "team_1",
+      name: "Team #{count}",
+      domain: team_domain,
       owner_user_id: user.id}
 
     team = Ash.Seed.seed!(Zippiker.Accounts.Team, team_attrs)
