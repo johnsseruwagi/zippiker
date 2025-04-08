@@ -3,19 +3,6 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
 
   alias AshPhoenix.Form
 
-  @doc """
-  This a wrapper used to access this component like a static component
-  in the template.
-
-  example:
-    <ZippikerWeb.Accounts.Groups.GroupForm.form
-      :for={group <- @groups}
-      actor={@current_user}
-      group_id={group.id}
-      show_button={false}
-      id={group.id}
-    />
-  """
 
   attr :id, :string, required: true
   attr :actor, Zippiker.Accounts.User, required: true
@@ -30,7 +17,6 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
       show_button={@show_button}
       module={__MODULE__}
     />
-
     """
   end
 
@@ -40,8 +26,8 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
   attr :actor, Zippiker.Accounts.User, required: true
   def render(assigns) do
     ~H"""
-    <div id={"access-group-#{@group_id}"} class="mt-4" >
-      <%!-- form trigger button --!%>
+    <div id={"access-group-#{@group_id}"} class="mt-4">
+      <%!-- Trigger Button --%>
       <div class="flex justify-end">
         <.button
           :if={@show_button}
@@ -52,7 +38,6 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
         </.button>
       </div>
 
-      <%!-- We want this form to show-up in a modal --%>
       <.modal id={"access-group-form-modal#{@group_id}"}>
         <.header class="mt-4">
           <.icon name="hero-user-group" />
@@ -109,9 +94,10 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
   def handle_event("validate", %{"form" => attrs}, %{assigns: %{form: form}} = socket) do
     socket
     |> assign(:form, Form.validate(form, attrs))
+    |> noreply()
   end
 
-  def handle_event("save", %{"form" => attrs}, %{assigns: %{form: form, group_id: group_id}} = socket) do
+  def handle_event("save", %{"form" => attrs}, %{assigns: %{group_id: group_id, form: form}}=socket) do
     case Form.submit(form, params: attrs) do
       {:ok, _group} ->
         socket
@@ -126,23 +112,18 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
     end
   end
 
-  # Prevents the form from being re-created on every update
-  defp assign_form(%{assigns: %{form: _form}} = socket) do
-    socket
-  end
+  defp assign_form(%{assigns: %{form: _form}} = socket), do: socket
 
   defp assign_form(%{assigns: assigns} = socket) do
     socket |> assign(:form, get_form(assigns))
   end
 
-  # Build for the new access group
   defp get_form(%{group_id: nil} = assigns) do
     Zippiker.Accounts.Group
     |> Form.for_create(:create, actor: assigns.actor)
     |> to_form()
   end
 
-  # Build for the existing access group
   defp get_form(%{group_id: group_id} = assigns) do
     Zippiker.Accounts.Group
     |> Ash.get!(group_id, actor: assigns.actor)

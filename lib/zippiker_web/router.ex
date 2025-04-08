@@ -42,6 +42,11 @@ defmodule ZippikerWeb.Router do
            live "/:id", ArticleLive.Show, :show
            live "/:id/show/edit", ArticleLive.Show, :edit
          end
+
+         scope "/accounts/groups" do
+           live "/", Accounts.Groups.GroupsLive
+           live "/:group_id/permissions", GroupPermissionLive
+         end
       # - For optional authentication:
       #   on_mount {HelpcenterWeb.LiveUserAuth, :live_user_optional}
       # - For unauthenticated users only:

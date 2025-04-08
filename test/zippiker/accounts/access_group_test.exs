@@ -23,7 +23,7 @@ defmodule Zippiker.Accounts.AccessGroupTest do
 
       # Confirm that all necessary fields are there
 
-#      assert html =~ "access-group-modal-button"
+      assert html =~ "access-group-modal-button"
       assert html =~ "form[name]"
       assert html =~ "form[description]"
       assert html =~ gettext("Submit")
@@ -132,7 +132,7 @@ defmodule Zippiker.Accounts.AccessGroupTest do
         |> follow_redirect(conn, ~p"/accounts/groups/#{group.id}")
 
       # Confirm that the edit group page displays the group details
-      {:ok, edit_view, html_view} =
+      {:ok, edit_view, edit_html} =
         conn
         |> login(user)
         |> live(~p"/accounts/groups/#{group.id}")
