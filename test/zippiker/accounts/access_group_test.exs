@@ -81,6 +81,28 @@ defmodule Zippiker.Accounts.AccessGroupTest do
       assert html =~ group.description
     end
 
+    test "update/2 assigns the form correctly for new group" do
+      user = create_user()
+
+      assigns = %{
+        id: id(),
+        actor: user,
+        title: title("New group"),
+        subtitle: subtitle("This is for a new group"),
+        group: nil,
+        patch: "/accounts/groups"
+      }
+
+      {:ok, socket} =
+        ZippikerWeb.Accounts.Groups.GroupForm.update(assigns, %Phoenix.LiveView.Socket{})
+
+      # Confirm that the form was assigned
+      assert socket.assigns.id == assigns.id
+      assert socket.assigns.title == assigns.title
+      assert socket.assigns.subtitle == assigns.subtitle
+      refute is_nil(socket.assigns.form)
+    end
+
 #    test "Guests should be redirected to login while trying to access /accounts/groups", %{conn: conn} do
 #      assert conn
 #          |> live(~p"/accounts/groups")
