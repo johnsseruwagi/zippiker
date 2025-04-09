@@ -23,14 +23,17 @@ defmodule ZippikerWeb.Accounts.Groups.Index do
 
     </div>
     <%!-- Table groups --%>
-    <.table id="groups" rows={@groups}>
-      <:col :let={group} label={gettext("Name")}>{group.name}</:col>
-      <:col :let={group} label={gettext("Description")}>{group.description}</:col>
-      <:action :let={group}>
+    <.table
+    id="groups"
+    rows={@streams.groups}
+    >
+      <:col :let={{_name, group}} label={gettext("Name")}>{group.name}</:col>
+      <:col :let={{_description, group}} label={gettext("Description")}>{group.description}</:col>
+      <:action :let={{_id, group}}>
         <div class="space-x-6">
           <.link
             id={"edit-access-group-#{group.id}"}
-            phx-click={show_modal("access-group-form-modal#{group.id}")}
+            patch={~p"/accounts/groups/#{group}/edit"}
             class="font-semibold leading-6 text-zinc-900 hover:text-zinc-700 hover:underline"
           >
             <.icon name="hero-pencil-solid" class="h-4 w-4" />
@@ -72,7 +75,7 @@ defmodule ZippikerWeb.Accounts.Groups.Index do
   def mount(_params, _session, socket) do
     socket
     |> maybe_subscribe()
-    |> assign_groups()
+    |> stream_groups()
     |> assign_new(:current_user, fn -> nil end)
     |> ok()
   end
@@ -107,15 +110,15 @@ defmodule ZippikerWeb.Accounts.Groups.Index do
 
   def handle_info(_message, socket) do
     socket
-    |> assign_groups()
+    |> stream_groups()
     |> noreply()
   end
 
-#  @impl true
-#  def handle_info({ZippikerWeb.Accounts.Groups.GroupLive, {:saved, group}}, socket) do
-#    socket
-#    |> assign_ins
-#  end
+  @impl true
+  def handle_info({ZippikerWeb.Accounts.Groups.Index, {:saved, group}}, socket) do
+    socket
+    |> stream_insert(:groups, group)
+  end
 
   # Subscribe connected users to the "group" topic for real-time
   # notifications when changes happen on access group
@@ -125,8 +128,8 @@ defmodule ZippikerWeb.Accounts.Groups.Index do
     socket
   end
 
-  defp assign_groups(%{assigns: %{current_user: current_user}} = socket) do
-    socket |> assign(:groups, get_groups(current_user))
+  defp stream_groups(%{assigns: %{current_user: current_user}} = socket) do
+    socket |> stream(:groups, get_groups(current_user))
   end
 
   defp assign_group(%{assigns: %{current_user: current_user}} = socket, group_id) do
