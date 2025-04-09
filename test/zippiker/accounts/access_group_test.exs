@@ -9,7 +9,9 @@ defmodule Zippiker.Accounts.AccessGroupTest do
 
       assert actions |> is_list()
     end
+  end
 
+  describe "Group Form tests" do
     test "Group form renders successfully" do
       user = create_user()
 
@@ -42,9 +44,8 @@ defmodule Zippiker.Accounts.AccessGroupTest do
       # Verify form fields exist
       assert html =~ ~r/<input[^>]*id="access-group-name#{assigns.id}"/
       assert html =~ ~r/<textarea[^>]*id="access-group-description#{assigns.id}"/
-#      assert html =~ ~r/<button[^>]*>Submit<\/button>/
+               #      assert html =~ ~r/<button[^>]*>Submit<\/button>/
     end
-
     test "Renders the form with populated fields when editing an existing group" do
       user = create_user()
       group = get_group(user)
@@ -63,10 +64,10 @@ defmodule Zippiker.Accounts.AccessGroupTest do
         myself: nil,
         patch: "/accounts/groups/#{group.id}",
         actor: user
-        }
+      }
 
-        html =
-          render_component(&ZippikerWeb.Accounts.Groups.GroupForm.render/1, assigns)
+      html =
+        render_component(&ZippikerWeb.Accounts.Groups.GroupForm.render/1, assigns)
 
       # Assertions to verify the component renders correctly with existing data
       assert html =~ "access-group-#{assigns.id}"
@@ -80,7 +81,6 @@ defmodule Zippiker.Accounts.AccessGroupTest do
       assert html =~ group.name
       assert html =~ group.description
     end
-
     test "update/2 assigns the form correctly for new group" do
       user = create_user()
 
@@ -102,6 +102,8 @@ defmodule Zippiker.Accounts.AccessGroupTest do
       assert socket.assigns.subtitle == assigns.subtitle
       refute is_nil(socket.assigns.form)
     end
+  end
+
 
 #    test "Guests should be redirected to login while trying to access /accounts/groups", %{conn: conn} do
 #      assert conn
