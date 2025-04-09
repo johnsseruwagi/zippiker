@@ -4,72 +4,33 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
   alias AshPhoenix.Form
 
 
-  attr :id, :string, required: true
-  attr :actor, Zippiker.Accounts.User, required: true
-  attr :group_id, :string, default: nil
-  attr :show_button, :boolean, default: true, doc: "Show button to create new group"
-  def form(assigns) do
-    ~H"""
-    <.live_component
-      id={@id}
-      actor={@actor}
-      group_id={@group_id}
-      show_button={@show_button}
-      module={__MODULE__}
-    />
-    """
-  end
-
-  attr :id, :string, required: true
-  attr :group_id, :string, default: nil
-  attr :show_button, :boolean, default: true
-  attr :actor, Zippiker.Accounts.User, required: true
   def render(assigns) do
     ~H"""
-    <div id={"access-group-#{@group_id}"} class="mt-4">
-      <%!-- Trigger Button --%>
-      <div class="flex justify-end">
-        <.button
-          :if={@show_button}
-          phx-click={show_modal("access-group-form-modal#{@group_id}")}
-          id={"access-group-modal-button#{@group_id}"}
-        >
-          <.icon name="hero-plus-solid" class="h-5 w-5" />
-        </.button>
-      </div>
+    <div id={"access-group-#{@id}"} class="mt-4">
 
-      <.modal id={"access-group-form-modal#{@group_id}"}>
         <.header class="mt-4">
           <.icon name="hero-user-group" />
-          <%!-- New Group --%>
-          <span :if={is_nil(@group_id)}>{gettext("New Access Group")}</span>
-          <:subtitle :if={is_nil(@group_id)}>
-            {gettext("Fill below form to create a new user access group")}
+          <span >{@title}</span>
+          <:subtitle>
+            {@subtitle}
           </:subtitle>
 
-          <%!-- Existing group --%>
-          <span :if={@group_id}>{@form.source.data.name}</span>
-          <:subtitle :if={@group_id}>
-            {gettext("Fill below form to update %{name} access group details.",
-              name: @form.source.data.name
-            )}
-          </:subtitle>
         </.header>
         <.simple_form
           for={@form}
           phx-change="validate"
           phx-submit="save"
-          id={"access-group-form#{@group_id}"}
+          id={"access-group-form"}
           phx-target={@myself}
         >
           <.input
             field={@form[:name]}
-            id={"access-group-name#{@id}-#{@group_id}"}
+            id={"access-group-name#{@id}"}
             label={gettext("Access Group Name")}
           />
           <.input
             field={@form[:description]}
-            id={"access-group-description#{@id}-#{@group_id}"}
+            id={"access-group-description#{@id}"}
             type="textarea"
             label={gettext("Description")}
           />
@@ -79,7 +40,7 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
             </.button>
           </:actions>
         </.simple_form>
-      </.modal>
+
     </div>
     """
   end
@@ -91,18 +52,19 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
     |> ok()
   end
 
-  def handle_event("validate", %{"form" => attrs}, %{assigns: %{form: form}} = socket) do
+  def handle_event("validate", %{"form" => group_params}, %{assigns: %{form: form}} = socket) do
     socket
-    |> assign(:form, Form.validate(form, attrs))
+    |> assign(:form, Form.validate(form, group_params))
     |> noreply()
   end
 
-  def handle_event("save", %{"form" => attrs}, %{assigns: %{group_id: group_id, form: form}}=socket) do
-    case Form.submit(form, params: attrs) do
-      {:ok, _group} ->
+  def handle_event("save", %{"form" => group_params}, %{assigns: %{form: form}}=socket) do
+    case Form.submit(form, params: group_params) do
+      {:ok, group} ->
+        notify_parent({:saved, group})
         socket
-        |> put_component_flash(:info, gettext("Access Group Submitted."))
-        |> cancel_modal("access-group-form-modal#{group_id}")
+        |> put_flash(:info, gettext("Access Group Submitted."))
+        |> push_patch(to: socket.assigns.patch)
         |> noreply()
 
       {:error, form} ->
@@ -112,22 +74,21 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
     end
   end
 
-  defp assign_form(%{assigns: %{form: _form}} = socket), do: socket
 
   defp assign_form(%{assigns: assigns} = socket) do
     socket |> assign(:form, get_form(assigns))
   end
 
-  defp get_form(%{group_id: nil} = assigns) do
+  defp get_form(%{group: nil} = assigns) do
     Zippiker.Accounts.Group
-    |> Form.for_create(:create, actor: assigns.actor)
+    |> Form.for_create(:create, as: "group", actor: assigns.actor)
     |> to_form()
   end
 
-  defp get_form(%{group_id: group_id} = assigns) do
-    Zippiker.Accounts.Group
-    |> Ash.get!(group_id, actor: assigns.actor)
-    |> Form.for_update(:update, actor: assigns.actor)
+  defp get_form(%{group: group} = assigns) do
+     Form.for_update(group, :update,as: "group", actor: assigns.actor)
     |> to_form()
   end
+
+  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end

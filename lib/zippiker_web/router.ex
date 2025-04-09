@@ -44,7 +44,9 @@ defmodule ZippikerWeb.Router do
          end
 
          scope "/accounts/groups" do
-           live "/", Accounts.Groups.GroupsLive
+           live "/", Accounts.Groups.Index, :index
+           live "/new", Accounts.Groups.Index, :new
+           live "/:id/edit", Accounts.Groups.Index, :edit
            live "/:group_id/permissions", GroupPermissionLive
          end
       # - For optional authentication:
