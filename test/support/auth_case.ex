@@ -71,4 +71,9 @@ defmodule AuthCase do
     Ash.Seed.seed!(Zippiker.Accounts.Group, group_attrs, tenant: actor.current_team)
   end
 
+  def title(title) when is_binary(title), do: title
+  def subtitle(subtitle) when is_binary(subtitle), do: subtitle
+
+  def id, do: Ash.UUIDv7.generate()
+
 end

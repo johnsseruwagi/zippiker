@@ -37,6 +37,7 @@ defmodule ZippikerWeb.ConnCase do
       # Import Conveniences for testing with Components
       import Phoenix.LiveViewTest
       import Phoenix.Component
+      alias AshPhoenix.Form
     end
   end
 
