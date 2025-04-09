@@ -52,13 +52,13 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
     |> ok()
   end
 
-  def handle_event("validate", %{"form" => group_params}, %{assigns: %{form: form}} = socket) do
+  def handle_event("validate", %{"group" => group_params}, socket) do
     socket
-    |> assign(:form, Form.validate(form, group_params))
+    |> assign(:form, Form.validate(socket.assigns.form, group_params))
     |> noreply()
   end
 
-  def handle_event("save", %{"form" => group_params}, %{assigns: %{form: form}}=socket) do
+  def handle_event("save", %{"group" => group_params}, %{assigns: %{form: form}}=socket) do
     case Form.submit(form, params: group_params) do
       {:ok, group} ->
         notify_parent({:saved, group})
@@ -74,20 +74,21 @@ defmodule ZippikerWeb.Accounts.Groups.GroupForm do
     end
   end
 
+  def assign_form(%{assigns: %{group: group}} = socket) do
+    form =
+      if group do
+        Form.for_update(group, :update,
+          as: "group", actor:
+          socket.assigns.actor
+        )
+        else
+        Form.for_create(Zippiker.Accounts.Group, :create,
+          as: "group",
+          actor: socket.assigns.actor
+        )
+      end
 
-  defp assign_form(%{assigns: assigns} = socket) do
-    socket |> assign(:form, get_form(assigns))
-  end
-
-  defp get_form(%{group: nil} = assigns) do
-    Zippiker.Accounts.Group
-    |> Form.for_create(:create, as: "group", actor: assigns.actor)
-    |> to_form()
-  end
-
-  defp get_form(%{group: group} = assigns) do
-     Form.for_update(group, :update,as: "group", actor: assigns.actor)
-    |> to_form()
+    assign(socket, form: to_form(form))
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})

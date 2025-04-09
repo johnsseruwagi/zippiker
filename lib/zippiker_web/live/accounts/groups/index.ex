@@ -54,7 +54,7 @@ defmodule ZippikerWeb.Accounts.Groups.Index do
 
     <.modal
       :if={@live_action in [:new, :edit]}
-      id="group-modal"
+      id="access-group-modal"
       show
       on_cancel={JS.patch(~p"/accounts/groups")}
     >

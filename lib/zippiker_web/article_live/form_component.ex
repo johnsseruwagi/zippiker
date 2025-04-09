@@ -17,11 +17,14 @@ defmodule ZippikerWeb.ArticleLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:title]} type="text" label="Title" /><.input
+        <.input field={@form[:title]} type="text" label="Title" />
+        <.input
           field={@form[:slug]}
           type="text"
           label="Slug"
-        /><.input field={@form[:content]} type="text" label="Content" /><.input
+        />
+        <.input field={@form[:content]} type="text" label="Content" />
+          <.input
           field={@form[:views_count]}
           type="number"
           label="Views count"
