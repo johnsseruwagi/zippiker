@@ -127,7 +127,6 @@ defmodule Zippiker.Accounts.AccessGroupTest do
   end
 
   describe "Group Form events tests" do
-
     test "handle_event/3 validates form input" do
       user = create_user()
       group_params = %{
@@ -198,7 +197,41 @@ defmodule Zippiker.Accounts.AccessGroupTest do
         assert info == "Access Group Submitted."
       end
     end
+    test "handle_event/3 handles form submission errors" do
+      user = create_user()
+      group_params = %{
+        name: "",
+        description: ""
+      }
 
+      form =
+        Zippiker.Accounts.Group
+        |> Form.for_create(:create, as: "group", actor: user)
+        |> to_form()
+
+      # Create a properly structured LiveView socket
+      socket =
+        %Phoenix.LiveView.Socket{
+          assigns: %{
+            actor: user,
+            form: form,
+            patch: "/accounts/groups",
+            __changed__: %{},
+            flash: %{}
+          }
+        }
+
+      error_form = :form_with_errors
+
+      # Mock Form.submit to simulate actual creation
+      with_mock Form, submit: fn _form, [params: _] -> {:error, error_form} end do
+        {:noreply, updated_socket} =
+        ZippikerWeb.Accounts.Groups.GroupForm.handle_event("save", %{"group" => group_params}, socket)
+
+        # Check that the proper flash message was set
+        assert updated_socket.assigns.form == error_form
+      end
+    end
   end
 
 
