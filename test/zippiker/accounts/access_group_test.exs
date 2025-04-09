@@ -102,6 +102,63 @@ defmodule Zippiker.Accounts.AccessGroupTest do
       assert socket.assigns.subtitle == assigns.subtitle
       refute is_nil(socket.assigns.form)
     end
+    test "update/2 assigns the form correctly for existing group" do
+      user = create_user()
+      group = get_group(user)
+
+      assigns = %{
+        id: id(),
+        actor: user,
+        title: title("New group"),
+        subtitle: subtitle("This is for a new group"),
+        group: group,
+        patch: "/accounts/groups"
+      }
+
+      {:ok, socket} =
+        ZippikerWeb.Accounts.Groups.GroupForm.update(assigns, %Phoenix.LiveView.Socket{})
+
+      # Confirm that the form was assigned
+      assert socket.assigns.id == assigns.id
+      assert socket.assigns.title == assigns.title
+      assert socket.assigns.subtitle == assigns.subtitle
+      refute is_nil(socket.assigns.form)
+    end
+  end
+
+  describe "Group Form events tests" do
+
+    test "handle_event/3 validates form input" do
+      user = create_user()
+      group_params = %{
+        name: "New group",
+        description: "Test description"
+      }
+
+      form =
+        Zippiker.Accounts.Group
+        |> Form.for_create(:create, as: "group", actor: user)
+        |> to_form()
+
+      # Create a properly structured LiveView socket
+      socket =
+        %Phoenix.LiveView.Socket{
+          assigns: %{
+            actor: user,
+            form: form,
+            __changed__: %{}
+          }
+        }
+
+      # Mock Form.validate to avoid actual validation
+      with_mock Form, validate: fn _form, _param -> :validated_form end do
+        {:noreply, updated_socket} =
+        ZippikerWeb.Accounts.Groups.GroupForm.handle_event("validate", %{"group" => group_params}, socket)
+
+        assert updated_socket.assigns.form == :validated_form
+      end
+    end
+
   end
 
 
@@ -207,6 +264,6 @@ defmodule Zippiker.Accounts.AccessGroupTest do
 #      end
 #
 #    end
-
-   end
+#
+#   end
 end

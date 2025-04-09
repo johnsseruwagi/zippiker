@@ -38,6 +38,9 @@ defmodule ZippikerWeb.ConnCase do
       import Phoenix.LiveViewTest
       import Phoenix.Component
       alias AshPhoenix.Form
+
+      # Import the mock package
+      import Mock
     end
   end
 
