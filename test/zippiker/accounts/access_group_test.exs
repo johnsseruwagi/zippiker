@@ -45,29 +45,42 @@ defmodule Zippiker.Accounts.AccessGroupTest do
 #      assert html =~ ~r/<button[^>]*>Submit<\/button>/
     end
 
-#    test "Existing Group renders successfully with the component " do
-#      user = create_user()
-#      group = get_group(user)
-#
-#      assigns = %{
-#        actor: user,
-#        group_id: group.id,
-#        id: Ash.UUIDv7.generate()
-#      }
-#
-#      html = render_component(ZippikerWeb.Accounts.Groups.GroupForm, assigns)
-#
-#      # Confirm that all necessary fields are there
-##      assert html =~ "access-group-modal-button"
-#      assert html =~ "form[name]"
-#      assert html =~ "form[description]"
-#      assert html =~ gettext("Submit")
-#
-#      # Confirm that group data is visible in the form
-#      assert html =~ group.name
-#      assert html =~ group.description
-#    end
-#
+    test "Renders the form with populated fields when editing an existing group" do
+      user = create_user()
+      group = get_group(user)
+
+      form =
+        group
+        |> Form.for_update(:update, as: "group", actor: user)
+        |> to_form()
+
+      assigns = %{
+        id: id(),
+        title: title("Edit"),
+        subtitle: subtitle("editing an access group"),
+        form: form,
+        group: group,
+        myself: nil,
+        patch: "/accounts/groups/#{group.id}",
+        actor: user
+        }
+
+        html =
+          render_component(&ZippikerWeb.Accounts.Groups.GroupForm.render/1, assigns)
+
+      # Assertions to verify the component renders correctly with existing data
+      assert html =~ "access-group-#{assigns.id}"
+      assert html =~ "#{assigns.title}"
+      assert html =~ "#{assigns.subtitle}"
+      assert html =~ gettext("Access Group Name")
+      assert html =~ gettext("Description")
+      assert html =~ gettext("Submit")
+
+      # Confirm that group data is visible in the form
+      assert html =~ group.name
+      assert html =~ group.description
+    end
+
 #    test "Guests should be redirected to login while trying to access /accounts/groups", %{conn: conn} do
 #      assert conn
 #          |> live(~p"/accounts/groups")
