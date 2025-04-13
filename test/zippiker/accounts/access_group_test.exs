@@ -243,7 +243,6 @@ defmodule Zippiker.Accounts.AccessGroupTest do
         |> live(~p"/accounts/groups")
         |> follow_redirect(conn, ~p"/sign-in")
     end
-
     test "List all groups", %{conn: conn} do
       user = create_user()
       groups = get_groups(user)
@@ -263,7 +262,6 @@ defmodule Zippiker.Accounts.AccessGroupTest do
         end
 
     end
-
     test "Saves new group", %{conn: conn} do
       user = create_user()
 
@@ -283,7 +281,7 @@ defmodule Zippiker.Accounts.AccessGroupTest do
         # Form can be validated
         assert index_live
           |> form("#access-group-form", group: @invalid_attrs)
-          |> render_change() =~ "is required"
+          |> render_change() =~ gettext("is required")
 
         # Form can be submitted
         assert index_live
@@ -304,7 +302,74 @@ defmodule Zippiker.Accounts.AccessGroupTest do
           |> Ash.Query.filter(description == ^@create_attrs.description)
           |> Ash.exists?(actor: user)
     end
+    test "Updates group in listing", %{conn: conn} do
+      user = create_user()
+      group = get_group(user)
 
+      {:ok, index_live, html} =
+        conn
+        |> login(user)
+        |> live(~p"/accounts/groups")
+
+      # Confirm that the group is visible on the page
+        assert html =~ group.name
+        assert html =~ group.description
+        assert html =~ ~p"/accounts/groups/#{group.id}/edit"
+
+        # Confirm that a link to edit is available
+        assert index_live
+          |> element("a[href='/accounts/groups/#{group.id}/edit']")
+          |> render_click() =~ gettext("Edit")
+
+
+        assert_patch(index_live, ~p"/accounts/groups/#{group.id}/edit")
+
+        # Form can be validated
+        assert index_live
+          |> form("#access-group-form", group: @invalid_attrs)
+          |> render_change() =~ gettext("is required")
+
+        # Form can be submitted
+        assert index_live
+          |> form("#access-group-form", group: @update_attrs)
+          |> render_submit()
+
+        assert_patch(index_live, ~p"/accounts/groups")
+
+        new_html = render(index_live)
+        assert new_html =~ gettext("Access Group Submitted.")
+
+        # Confirm that the group was actually updated
+        require Ash.Query
+        exists? =
+          Zippiker.Accounts.Group
+          |> Ash.Query.filter(name == ^@update_attrs.name)
+          |> Ash.Query.filter(description == ^@update_attrs.description)
+          |> Ash.exists?(actor: user)
+
+          assert exists?
+
+    end
+    test "Edit page displays group", %{conn: conn} do
+      user = create_user()
+      group = get_group(user)
+
+      {:ok, _edit_live, html} =
+        conn
+        |> login(user)
+        |> live(~p"/accounts/groups/#{group.id}/edit")
+
+        # Confirm that group details are displayed correctly
+        assert html =~ group.name
+        assert html =~ group.description
+        assert html =~ "group[name]"
+        assert html =~ "group[description]"
+
+        # Confirm that the page title and subtitle are displayed
+        assert html =~ gettext("Edit Access Group")
+        assert html =~ gettext("Fill below form to update this access group details.")
+
+    end
   end
 
 
