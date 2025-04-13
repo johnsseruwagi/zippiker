@@ -265,47 +265,49 @@ defmodule Zippiker.Accounts.AccessGroupTest do
     end
 
     test "Saves new group", %{conn: conn} do
-      user = create_new(user)
+      user = create_user()
 
+      {:ok, index_live, _html} =
+        conn
+        |> login(user)
+        |> live(~p"/accounts/groups")
+
+      # Click the link that contains the add button
+      # Note: We're clicking the link, not the button itself
+        assert index_live
+          |> element( "a[href='/accounts/groups/new']")
+          |> render_click()
+
+        assert_patch(index_live, ~p"/accounts/groups/new")
+
+        # Form can be validated
+        assert index_live
+          |> form("#access-group-form", group: @invalid_attrs)
+          |> render_change() =~ "is required"
+
+        # Form can be submitted
+        assert index_live
+          |> form("#access-group-form", group: @create_attrs)
+          |> render_submit()
+
+        assert_patch(index_live, ~p"/accounts/groups")
+
+        html = render(index_live)
+
+        assert html =~ gettext("Access Group Submitted.")
+
+        # Confirm that the data was actually created
+        require Ash.Query
+
+        assert Zippiker.Accounts.Group
+          |> Ash.Query.filter(name == ^@create_attrs.name)
+          |> Ash.Query.filter(description == ^@create_attrs.description)
+          |> Ash.exists?(actor: user)
     end
 
   end
 
 
-
-
-#
-#    test "Access Group can be created", %{conn: conn} do
-#      user = create_user()
-#
-#      {:ok, view, _html} =
-#        conn
-#        |> login(user)
-#        |> live(~p"/accounts/groups")
-#
-#      attrs = %{
-#        name: "Support",
-#        description: "Customer support representative"
-#      }
-#
-#      # Form can be validated
-#      assert view
-#             |> form("access-group-form", form: attrs)
-#             |> render_change()
-#
-#      # Form can be submitted
-#      assert view
-#             |> form("access-group-form", form: attrs)
-#             |> render_submit()
-#
-#      # Confirm that data was actually created
-#      require Ash.Query
-#
-#      assert Zippiker.Accounts.Group
-#            |> Ash.Query.filter(name == ^attrs.name)
-#            |> Ash.Query.filter(description == ^attrs.description)
-#            |> Ash.exists!(actor: user)
-#    end
 #
 #    test "Access Group can be edited", %{conn: conn} do
 #      user = create_user()
