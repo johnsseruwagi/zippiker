@@ -154,6 +154,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/phoenix_view" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/picosat_elixir" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/slugify" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/meck" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mock" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sourceror" level="project" />
@@ -305,5 +307,8 @@
     <orderEntry type="library" name="poison" level="project" />
     <orderEntry type="library" name="thoas" level="project" />
     <orderEntry type="library" name="temporary_env" level="project" />
+    <orderEntry type="library" name="mock" level="project" />
+    <orderEntry type="library" name="meck" level="project" />
+    <orderEntry type="library" name="markdown" level="project" />
   </component>
 </module>

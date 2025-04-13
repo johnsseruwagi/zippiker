@@ -1,6 +1,9 @@
 defmodule Zippiker.Accounts.AccessGroupTest do
   use ZippikerWeb.ConnCase, async: false
 
+  @create_attrs %{name: "some name", description: "some description"}
+  @update_attrs %{name: "updated name", description: "updated description"}
+  @invalid_attrs %{name: nil, description: nil}
 
   describe "User Access Group Tests" do
     test "All resource actions can be listed for permissions" do
@@ -234,29 +237,43 @@ defmodule Zippiker.Accounts.AccessGroupTest do
     end
   end
 
+  describe "Index" do
+    test "Guests should be redirected to login while trying to access /accounts/groups", %{conn: conn} do
+      assert conn
+        |> live(~p"/accounts/groups")
+        |> follow_redirect(conn, ~p"/sign-in")
+    end
 
-#    test "Guests should be redirected to login while trying to access /accounts/groups", %{conn: conn} do
-#      assert conn
-#          |> live(~p"/accounts/groups")
-#          |> follow_redirect(conn, ~p"/sign-in")
-#    end
-#
-#    test "Access Groups can be listed", %{conn: conn} do
-#      user = create_user()
-#      groups = get_groups(user)
-#
-#      {:ok, _view, html} =
-#        conn
-#        |> login(user)
-#        |> live(~p"/accounts/groups")
-#
-#      # Confirm that all the groups are listed
-#      for group <- groups do
-#        assert html =~ group.name
-#        assert html =~ group.description
-#      end
-#
-#    end
+    test "List all groups", %{conn: conn} do
+      user = create_user()
+      groups = get_groups(user)
+
+      {:ok, _index_live, html} =
+        conn
+        |> login(user)
+        |> live(~p"/accounts/groups")
+
+
+        assert html =~ "User Access Groups"
+        assert html =~ "Create, update and manage user access groups and their permissions"
+
+        for group <- groups do
+          assert html =~ group.name
+          assert html =~ group.description
+        end
+
+    end
+
+    test "Saves new group", %{conn: conn} do
+      user = create_new(user)
+
+    end
+
+  end
+
+
+
+
 #
 #    test "Access Group can be created", %{conn: conn} do
 #      user = create_user()
