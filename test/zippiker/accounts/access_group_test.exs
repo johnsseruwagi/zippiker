@@ -372,55 +372,29 @@ defmodule Zippiker.Accounts.AccessGroupTest do
     end
   end
 
+  describe "Permission" do
+    test "Guests should be redirected to login", %{conn: conn} do
 
-#
-#    test "Access Group can be edited", %{conn: conn} do
-#      user = create_user()
-#      group = get_group(user)
-#
-#      {:ok, view, html} =
-#        conn
-#        |> login(user)
-#        |> live(~p"/accounts/groups")
-#
-#      # Confirm that the group is visible on the page
-#      assert html =~ group.name
-#      assert html =~ group.description
-#      assert html =~ ~p"/accounts/groups/#{group.id}"
-#
-#      # Confirm user can click on the link to group edit
-#      assert view
-#        |> element("#edit-access-group-#{group.id}")
-#        |> render_click()
-#
-#      assert view
-#        |> element("#access-group-permissions-#{group.id}")
-#        |> render_click()
-#        |> follow_redirect(conn, ~p"/accounts/groups/#{group.id}")
-#
-#      # Confirm that the edit group page displays the group details
-#      {:ok, edit_view, edit_html} =
-#        conn
-#        |> login(user)
-#        |> live(~p"/accounts/groups/#{group.id}")
-#
-#      assert edit_html =~ group.name
-#      assert edit_html =~ group.description
-#      assert edit_html =~ "form[name]"
-#      assert edit_html =~ "form[description]"
-#
-#      # Confirm that user can see all the permissions in the app listed
-#      for perm <- Zippiker.get_permissions() do
-#        assert edit_html =~ perm.action
-#        assert edit_html =~ perm.resource
-#
-#        # Confirm the permission is clickable
-#        assert edit_view
-#               |> element("#group-permission-#{perm.resource}-#{perm.action}")
-#               |> render_click()
-#      end
-#
-#    end
-#
-#   end
+      user = create_user()
+      group = get_group(user)
+
+      assert conn
+        |> live(~p"/accounts/groups/#{group.id}/permissions")
+        |> follow_redirect(conn, ~p"/sign-in")
+    end
+    test "Permissions page displays group details", %{conn: conn} do
+      user = create_user()
+      group = get_group(user)
+
+      {:ok, _permission_live, html} =
+        conn
+        |> login(user)
+        |> live(~p"/accounts/groups/#{group.id}/permissions")
+
+        assert html =~ gettext("%{name} Access Permission", name: group.name)
+        assert html =~ gettext("%{description}", description: group.description)
+        assert html =~ gettext("Back to access groups")
+    end
+  end
+
 end

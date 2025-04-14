@@ -1,18 +1,12 @@
-defmodule Accounts.Groups.PermissionLive do
+defmodule ZippikerWeb.Accounts.Groups.GroupPermissionsLive do
   use ZippikerWeb, :live_view
 
   def render(assigns) do
     ~H"""
-      <.back navigate={~p"/accounts/groups"} > gettext("Back to access groups")</.back>
+      <.back navigate={~p"/accounts/groups"} > {gettext("Back to access groups")}</.back>
       <.header class="mt-4" >
-        <.icon name="hero-shield-check"/> {gettext(%{name} Access Permissions, name: @group.name)}
-        <:subtitle>{@group.description}</:subtitle>
-
-      <div class="mt-4" >
-        <ZippikerWeb.Accounts.Groups.GroupPermissionFormComponent
-          group_id={@group_id}
-          actor={@current_user} />
-      </div>
+        <.icon name="hero-shield-check"/> {gettext("%{name} Access Permissions", name: @group.name)}
+        <:subtitle>{gettext("%{description}", description: @group.description)}</:subtitle>
       </.header>
     """
   end
@@ -24,7 +18,7 @@ defmodule Accounts.Groups.PermissionLive do
     |> ok()
   end
 
-  defp assign_group(%{current_user: actor, group_id: id} = socket) do
+  defp assign_group(%{assigns: %{current_user: actor, group_id: id}} = socket) do
     socket |> assign(:group, get_group!(id, actor))
   end
 
@@ -32,4 +26,11 @@ defmodule Accounts.Groups.PermissionLive do
     Zippiker.Accounts.Group
     |> Ash.get!(id, actor: actor)
   end
+
+  #      <div class="mt-4" >
+  #          <ZippikerWeb.Accounts.Groups.GroupPermissionFormComponent.form
+  #            group_id={@group_id}
+  #            actor={@current_user}
+  #          />
+  #      </div>
 end
